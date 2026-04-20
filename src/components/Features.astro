@@ -1,0 +1,76 @@
+---
+const features = [
+	{
+		title: 'DJ Dashboard',
+		description:
+			'Flagship control surface with per-player seek bars, volume, and playlist management. Drive an entire video set from one window.',
+		accent: 'from-fuchsia-500 to-pink-500',
+		icon: 'M4 4h4v16H4zM10 9h4v11h-4zM16 6h4v14h-4z',
+	},
+	{
+		title: 'Screen Maximize Mode',
+		description:
+			'Intelligent multi-monitor layouts. Ultiplay auto-arranges players across every screen so every pixel pulls its weight.',
+		accent: 'from-cyan-400 to-blue-500',
+		icon: 'M3 4h18v12H3zM8 20h8M12 16v4',
+	},
+	{
+		title: 'Grid Mode',
+		description:
+			'One key turns any set of players into a perfect grid — 2×2, 3×3, or whatever fits. Lock the layout and focus on the content.',
+		accent: 'from-purple-500 to-fuchsia-500',
+		icon: 'M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z',
+	},
+	{
+		title: 'Live Streaming',
+		description:
+			'Pull in YouTube, Twitch, RTSP cameras, and any direct stream. Treat the whole internet like a local file.',
+		accent: 'from-pink-500 to-rose-500',
+		icon: 'M5 12a7 7 0 0114 0M8 12a4 4 0 018 0M12 12h.01',
+	},
+	{
+		title: 'Layout Presets',
+		description:
+			'Save unlimited .ultilayout configurations. Load a rig in one click — 4-player grid, VR stream setup, or your custom wall.',
+		accent: 'from-cyan-400 to-fuchsia-500',
+		icon: 'M4 4h16v4H4zM4 10h10v10H4zM16 10h4v4h-4zM16 16h4v4h-4z',
+	},
+	{
+		title: 'Mirror & Sync',
+		description:
+			'Clone any player to any screen with frame-level sync. Perfect for video walls, dual-monitor streaming, and live events.',
+		accent: 'from-amber-400 to-fuchsia-500',
+		icon: 'M12 3v18M3 8l9-5 9 5M3 16l9 5 9-5',
+	},
+];
+---
+
+<section id="features" class="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+	<div class="mb-16 max-w-2xl">
+		<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Features</p>
+		<h2 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+			A control room in one app.
+		</h2>
+		<p class="mt-4 text-lg text-slate-300">
+			Built for the people who need more than a basic media player — streamers, VJs, DJs, video-wall
+			operators, and anyone running more than one screen at a time.
+		</p>
+	</div>
+
+	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{features.map((f) => (
+			<div
+				class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur transition hover:border-white/20 hover:bg-white/[0.06]"
+			>
+				<div class={`mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${f.accent} text-slate-950 shadow-lg`}>
+					<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d={f.icon}></path>
+					</svg>
+				</div>
+				<h3 class="text-lg font-semibold text-white">{f.title}</h3>
+				<p class="mt-2 text-sm leading-relaxed text-slate-400">{f.description}</p>
+				<div class="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-fuchsia-500/10 blur-3xl transition group-hover:bg-fuchsia-500/20"></div>
+			</div>
+		))}
+	</div>
+</section>

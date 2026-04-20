@@ -1,3 +1,15 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'Ultiplay — The Ultimate Multi-Video Player',
+	description = 'Ultiplay is the ultimate multi-video player for streamers, DJs, VJs, and power users. Run unlimited players, build video walls, and control everything from one dashboard.',
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,14 +18,31 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="Ultiplay — play more, do more." />
-		<title>Ultiplay</title>
+		<meta name="description" content={description} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content="/ultiplay-hero.jpg" />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="theme-color" content="#0b0514" />
+		<title>{title}</title>
 	</head>
-	<body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+	<body class="min-h-screen bg-[#070310] text-slate-100 antialiased selection:bg-fuchsia-500/40 selection:text-white">
 		<slot />
 	</body>
 </html>
 
 <style is:global>
 	@import "../styles/global.css";
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		background-image:
+			radial-gradient(ellipse 80% 60% at 50% -10%, rgba(168, 85, 247, 0.22), transparent 60%),
+			radial-gradient(ellipse 60% 50% at 90% 30%, rgba(34, 211, 238, 0.14), transparent 55%),
+			radial-gradient(ellipse 60% 50% at 10% 70%, rgba(236, 72, 153, 0.18), transparent 55%);
+	}
 </style>

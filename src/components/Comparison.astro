@@ -1,0 +1,110 @@
+---
+const rows = [
+	{ label: 'Simultaneous players', free: 'Up to 3', gold: 'Unlimited' },
+	{ label: 'All video & image formats', free: true, gold: true },
+	{ label: 'Drag & drop', free: true, gold: true },
+	{ label: 'Layout save / load', free: '3 layouts', gold: 'Unlimited' },
+	{ label: 'Basic fullscreen & Classic Mode', free: true, gold: true },
+	{ label: 'Screenshot capture', free: true, gold: true },
+	{ label: 'DJ Dashboard', free: false, gold: true },
+	{ label: 'Screen Maximize Mode (SMM)', free: false, gold: true },
+	{ label: 'Grid Mode', free: false, gold: true },
+	{ label: 'URL & stream playback (YouTube, Twitch, RTSP)', free: false, gold: true },
+	{ label: 'Webcam feeds', free: false, gold: true },
+	{ label: 'Advanced shortcuts & player swapping', free: false, gold: true },
+	{ label: 'Priority support', free: false, gold: true },
+	{ label: 'Commercial use', free: false, gold: true },
+];
+
+const Check = `<svg class="h-5 w-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`;
+const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`;
+---
+
+<section id="pricing" class="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+	<div class="mb-14 text-center">
+		<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Pricing</p>
+		<h2 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+			Start free. Go Gold when you're ready.
+		</h2>
+		<p class="mt-4 text-lg text-slate-300">
+			Free forever. Upgrade to unlock unlimited players, the DJ Dashboard, and everything below.
+		</p>
+	</div>
+
+	<div class="mb-14 grid gap-6 lg:grid-cols-2">
+		<div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur">
+			<p class="text-sm font-semibold uppercase tracking-widest text-slate-400">Free</p>
+			<div class="mt-3 flex items-baseline gap-2">
+				<span class="text-5xl font-bold text-white">$0</span>
+				<span class="text-slate-400">forever</span>
+			</div>
+			<p class="mt-4 text-slate-400">
+				Everything you need to run up to 3 video players on one machine. No time limits, no credit card.
+			</p>
+			<a
+				href="#"
+				aria-disabled="true"
+				class="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+			>
+				Download Free — Coming soon
+			</a>
+		</div>
+
+		<div class="relative overflow-hidden rounded-2xl border border-fuchsia-400/40 bg-gradient-to-br from-fuchsia-500/10 via-purple-500/5 to-cyan-400/10 p-8 shadow-[0_0_60px_-20px_rgba(217,70,239,0.6)] backdrop-blur">
+			<div class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+			<div class="flex items-center justify-between">
+				<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-200">Gold</p>
+				<span class="rounded-full border border-fuchsia-400/40 bg-fuchsia-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-fuchsia-100">
+					Founder's pricing
+				</span>
+			</div>
+			<div class="mt-3 flex items-baseline gap-3">
+				<span class="text-5xl font-bold text-white">$14.99</span>
+				<span class="text-lg text-slate-500 line-through">$39.99</span>
+			</div>
+			<p class="mt-2 text-xs font-medium uppercase tracking-widest text-fuchsia-300">
+				Early adopter price — going up as Ultiplay grows
+			</p>
+			<p class="mt-4 text-slate-300">
+				Unlimited players, the DJ Dashboard, Screen Maximize Mode, streaming, webcams, unlimited
+				layouts, and commercial use.
+			</p>
+			<a
+				href="#"
+				aria-disabled="true"
+				class="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
+			>
+				Get Gold — Coming soon
+			</a>
+		</div>
+	</div>
+
+	<div class="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur">
+		<table class="w-full text-left text-sm">
+			<thead class="bg-white/5">
+				<tr>
+					<th class="px-6 py-4 font-semibold text-white">Feature</th>
+					<th class="px-6 py-4 text-center font-semibold text-slate-300">Free</th>
+					<th class="px-6 py-4 text-center font-semibold text-fuchsia-200">Gold</th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-white/5">
+				{rows.map((row) => (
+					<tr class="transition hover:bg-white/[0.02]">
+						<td class="px-6 py-4 text-slate-200">{row.label}</td>
+						<td class="px-6 py-4 text-center text-slate-300">
+							{typeof row.free === 'boolean'
+								? <Fragment set:html={row.free ? Check : Dash} />
+								: <span>{row.free}</span>}
+						</td>
+						<td class="px-6 py-4 text-center text-slate-100">
+							{typeof row.gold === 'boolean'
+								? <Fragment set:html={row.gold ? Check : Dash} />
+								: <span class="font-medium">{row.gold}</span>}
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+</section>

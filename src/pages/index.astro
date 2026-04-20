@@ -1,50 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import VideoSection from '../components/VideoSection.astro';
+import Features from '../components/Features.astro';
+import Comparison from '../components/Comparison.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
-	<main class="relative isolate overflow-hidden">
-		<div
-			class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.25),_transparent_60%),radial-gradient(ellipse_at_bottom,_rgba(236,72,153,0.18),_transparent_55%)]"
-		>
-		</div>
-
-		<section class="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 py-24 text-center">
-			<span
-				class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium tracking-wide text-slate-300 backdrop-blur"
-			>
-				<span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_theme(colors.emerald.400)]"></span>
-				Deploy pipeline: live
-			</span>
-
-			<h1
-				class="bg-gradient-to-br from-white via-indigo-200 to-fuchsia-300 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
-			>
-				Ultiplay
-			</h1>
-
-			<p class="mt-6 max-w-2xl text-lg text-slate-300 sm:text-xl">
-				Something new is on the way. We're building it in the open — check back soon.
-			</p>
-
-			<div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-				<a
-					href="#"
-					class="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/20 transition hover:bg-slate-100"
-				>
-					Join the waitlist
-				</a>
-				<a
-					href="https://github.com/MarchCorbin/ultiplay-site"
-					class="rounded-lg border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
-				>
-					View on GitHub
-				</a>
-			</div>
-
-			<footer class="mt-24 text-xs text-slate-500">
-				© {new Date().getFullYear()} Ultiplay · Built with Astro & Tailwind
-			</footer>
-		</section>
-	</main>
+	<Nav />
+	<Hero />
+	<VideoSection />
+	<Features />
+	<Comparison />
+	<Footer />
 </Layout>
