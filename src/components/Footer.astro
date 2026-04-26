@@ -12,8 +12,10 @@ const year = new Date().getFullYear();
 
 		<div class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-6 text-sm text-slate-500 md:flex-row">
 			<div class="flex items-center gap-2">
-				<span class="relative inline-flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-fuchsia-500 to-cyan-400 text-xs font-black text-slate-950">
-					U
+				<span class="relative grid h-6 w-6 grid-cols-3 grid-rows-3 gap-[1.5px] rounded-md border border-white/10 bg-slate-950 p-[2px]">
+					<span class="col-span-2 row-span-2 rounded-[2px] bg-gradient-to-br from-fuchsia-500 to-pink-500"></span>
+					<span class="col-span-1 row-span-2 rounded-[2px] bg-gradient-to-br from-cyan-400 to-blue-500"></span>
+					<span class="col-span-3 row-span-1 rounded-[2px] bg-gradient-to-r from-amber-400 via-fuchsia-500 to-cyan-400"></span>
 				</span>
 				<span>© {year} Ultiplay. All rights reserved.</span>
 			</div>

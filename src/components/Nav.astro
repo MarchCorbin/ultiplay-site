@@ -3,11 +3,24 @@
 
 <header class="sticky top-0 z-50 border-b border-white/5 bg-[#070310]/70 backdrop-blur-xl">
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-		<a href="#top" class="flex items-center gap-2">
-			<span class="relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-fuchsia-500 to-cyan-400 text-sm font-black text-slate-950 shadow-[0_0_20px_rgba(217,70,239,0.5)]">
-				U
+		<a href="#top" class="group flex items-center gap-3">
+			<span class="relative inline-block">
+				<span class="absolute -inset-1 rounded-lg bg-gradient-to-br from-fuchsia-500/50 to-cyan-400/50 blur-md opacity-60 transition group-hover:opacity-100"></span>
+				<span class="relative grid h-9 w-9 grid-cols-3 grid-rows-3 gap-[2px] rounded-lg border border-white/10 bg-slate-950 p-[3px] shadow-lg transition group-hover:border-fuchsia-400/40">
+					<span class="col-span-2 row-span-2 rounded-[3px] bg-gradient-to-br from-fuchsia-500 to-pink-500"></span>
+					<span class="col-span-1 row-span-2 rounded-[3px] bg-gradient-to-br from-cyan-400 to-blue-500"></span>
+					<span class="col-span-3 row-span-1 rounded-[3px] bg-gradient-to-r from-amber-400 via-fuchsia-500 to-cyan-400"></span>
+				</span>
 			</span>
-			<span class="text-lg font-semibold tracking-tight">Ultiplay</span>
+
+			<span class="flex flex-col leading-none">
+				<span class="text-lg font-bold tracking-tight">
+					<span class="text-white">Ulti</span><span class="bg-gradient-to-r from-fuchsia-400 to-cyan-300 bg-clip-text text-transparent">play</span>
+				</span>
+				<span class="mt-1 hidden text-[9px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:inline">
+					Your Play · Your Way
+				</span>
+			</span>
 		</a>
 
 		<div class="hidden items-center gap-8 text-sm text-slate-300 md:flex">
