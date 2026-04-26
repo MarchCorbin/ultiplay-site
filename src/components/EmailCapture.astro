@@ -1,17 +1,12 @@
 ---
 // Email capture for the launch waitlist.
 //
-// SETUP STEPS (5 minutes, free):
-//   1. Go to https://formspree.io and create a free account.
-//   2. Create a new form, name it "Ultiplay waitlist".
-//   3. Copy the form's endpoint URL (looks like https://formspree.io/f/XXXXXXXX).
-//   4. Replace the value of FORMSPREE_ENDPOINT below with your URL.
-//   5. Optional: in your Formspree dashboard, set the form's "Thank you redirect"
-//      to https://YOUR-DOMAIN/thanks  (then create that page too).
-//
-// Until you set this up, submissions will fail silently — fine for LS review,
-// but make sure to wire it before you actually publicize the site.
+// Submits via fetch() so we can redirect to /thanks ourselves on success
+// (Formspree paywalls custom redirect URLs, so we do it client-side).
+// If JavaScript is disabled, the form falls back to a native POST and
+// the user lands on Formspree's default thank-you page — still functional.
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjlydag';
+const REDIRECT_ON_SUCCESS = '/thanks';
 ---
 
 <section id="notify" class="relative mx-auto max-w-4xl px-6 py-20 md:py-24">
@@ -32,8 +27,10 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjlydag';
 			</p>
 
 			<form
+				id="waitlist-form"
 				action={FORMSPREE_ENDPOINT}
 				method="POST"
+				data-redirect={REDIRECT_ON_SUCCESS}
 				class="mx-auto mt-8 flex w-full max-w-lg flex-col gap-3 sm:flex-row"
 			>
 				<label for="email" class="sr-only">Email address</label>
@@ -44,20 +41,27 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjlydag';
 					autocomplete="email"
 					required
 					placeholder="you@email.com"
-					class="flex-1 rounded-lg border border-white/15 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 backdrop-blur outline-none transition focus:border-fuchsia-400/60 focus:ring-2 focus:ring-fuchsia-400/30"
+					class="flex-1 rounded-lg border border-white/15 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 backdrop-blur outline-none transition focus:border-fuchsia-400/60 focus:ring-2 focus:ring-fuchsia-400/30 disabled:opacity-60"
 				/>
 				<input type="hidden" name="source" value="ultiplay-site-waitlist" />
 				<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 				<button
 					type="submit"
-					class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
+					data-submit-btn
+					class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)] disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow-none"
 				>
-					Notify me
+					<span data-btn-label>Notify me</span>
 					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 						<path d="M5 12h14M13 5l7 7-7 7"></path>
 					</svg>
 				</button>
 			</form>
+
+			<p
+				data-form-error
+				class="mt-4 hidden text-sm text-rose-300"
+				role="alert"
+			></p>
 
 			<p class="mt-4 text-xs text-slate-500">
 				We'll only use your email to notify you about the launch. Read our
@@ -66,3 +70,68 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjlydag';
 		</div>
 	</div>
 </section>
+
+<script>
+	const form = document.getElementById('waitlist-form') as HTMLFormElement | null;
+	if (form) {
+		const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit-btn]');
+		const btnLabel = form.querySelector<HTMLElement>('[data-btn-label]');
+		const errorEl = document.querySelector<HTMLElement>('[data-form-error]');
+		const emailInput = form.querySelector<HTMLInputElement>('input[type="email"]');
+		const redirectURL = form.dataset.redirect ?? '/thanks';
+		const originalLabel = btnLabel?.textContent ?? 'Notify me';
+
+		const showError = (msg: string) => {
+			if (!errorEl) return;
+			errorEl.textContent = msg;
+			errorEl.classList.remove('hidden');
+		};
+
+		const clearError = () => {
+			if (!errorEl) return;
+			errorEl.textContent = '';
+			errorEl.classList.add('hidden');
+		};
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			clearError();
+
+			if (!form.reportValidity()) return;
+
+			submitBtn?.setAttribute('disabled', '');
+			emailInput?.setAttribute('disabled', '');
+			if (btnLabel) btnLabel.textContent = 'Sending…';
+
+			try {
+				const response = await fetch(form.action, {
+					method: 'POST',
+					body: new FormData(form),
+					headers: { Accept: 'application/json' },
+				});
+
+				if (response.ok) {
+					window.location.assign(redirectURL);
+					return;
+				}
+
+				let message = "Something went wrong. Please try again or email support@ultiplay.net.";
+				try {
+					const data = await response.json();
+					if (Array.isArray(data?.errors) && data.errors.length > 0) {
+						message = data.errors.map((e: { message?: string }) => e.message ?? '').filter(Boolean).join(' ');
+					}
+				} catch {
+					/* response wasn't JSON; keep the default message */
+				}
+				showError(message);
+			} catch {
+				showError("Couldn't reach the server. Check your connection and try again.");
+			} finally {
+				submitBtn?.removeAttribute('disabled');
+				emailInput?.removeAttribute('disabled');
+				if (btnLabel) btnLabel.textContent = originalLabel;
+			}
+		});
+	}
+</script>
