@@ -1,0 +1,110 @@
+---
+const modes = [
+	{
+		name: 'Classic',
+		shortcut: 'C',
+		description:
+			'Single-player focus. Full window, no distractions. Perfect for everyday watching with smart playlists and a play-next queue.',
+		diagram: 'classic',
+		isNew: false,
+	},
+	{
+		name: 'Grid',
+		shortcut: 'G',
+		description:
+			"Auto-arrange every player into an equal grid. 2×2, 3×3, or whatever fits — instantly, with one keystroke.",
+		diagram: 'grid',
+		isNew: false,
+	},
+	{
+		name: 'Screen Maximize',
+		shortcut: 'F',
+		description:
+			'Spread players across every monitor with smart per-screen optimization. Built for multi-monitor rigs and video walls.',
+		diagram: 'smm',
+		isNew: false,
+	},
+	{
+		name: 'Mosaic',
+		shortcut: 'M',
+		description:
+			"Adapts dynamically to each video's aspect ratio for a perfectly cinematic layout. No black bars. No awkward gaps.",
+		diagram: 'mosaic',
+		isNew: true,
+	},
+];
+---
+
+<section id="modes" class="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+	<div class="mb-16 max-w-3xl">
+		<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Layout modes</p>
+		<h2 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+			Cinematic layouts. <span class="bg-gradient-to-r from-fuchsia-400 to-cyan-300 bg-clip-text text-transparent">One button.</span>
+		</h2>
+		<p class="mt-4 text-lg text-slate-300">
+			Whether you're running one player or nine, Ultiplay snaps everything into the perfect arrangement
+			instantly — automatically optimized for your videos' aspect ratios and your screens.
+		</p>
+	</div>
+
+	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+		{modes.map((mode) => (
+			<div class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur transition hover:border-fuchsia-400/40 hover:bg-white/[0.06]">
+				{mode.isNew && (
+					<span class="absolute right-4 top-4 rounded-full border border-fuchsia-400/40 bg-fuchsia-500/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-fuchsia-100">
+						New
+					</span>
+				)}
+
+				<div class="relative mb-5 aspect-video overflow-hidden rounded-lg border border-white/10 bg-slate-950 p-2">
+					{mode.diagram === 'classic' && (
+						<div class="h-full w-full rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40 ring-1 ring-fuchsia-400/30"></div>
+					)}
+
+					{mode.diagram === 'grid' && (
+						<div class="grid h-full w-full grid-cols-3 grid-rows-2 gap-1">
+							{Array.from({ length: 6 }).map(() => (
+								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40 ring-1 ring-fuchsia-400/20"></div>
+							))}
+						</div>
+					)}
+
+					{mode.diagram === 'smm' && (
+						<div class="flex h-full w-full items-stretch gap-1.5">
+							<div class="grid flex-1 grid-cols-2 grid-rows-2 gap-1 rounded border border-white/10 bg-black/40 p-1">
+								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
+								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
+								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
+								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
+							</div>
+							<div class="flex flex-1 items-stretch rounded border border-white/10 bg-black/40 p-1">
+								<div class="h-full w-full rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
+							</div>
+						</div>
+					)}
+
+					{mode.diagram === 'mosaic' && (
+						<div class="grid h-full w-full grid-cols-4 grid-rows-3 gap-1">
+							<div class="col-span-2 row-span-2 rounded bg-gradient-to-br from-fuchsia-500/50 to-pink-400/50 ring-1 ring-fuchsia-400/40"></div>
+							<div class="col-span-1 row-span-2 rounded bg-gradient-to-br from-cyan-400/50 to-blue-500/50 ring-1 ring-cyan-400/40"></div>
+							<div class="col-span-1 row-span-2 rounded bg-gradient-to-br from-purple-500/50 to-fuchsia-500/50 ring-1 ring-purple-400/40"></div>
+							<div class="col-span-4 row-span-1 rounded bg-gradient-to-br from-amber-400/50 to-fuchsia-500/50 ring-1 ring-amber-400/40"></div>
+						</div>
+					)}
+				</div>
+
+				<div class="flex items-center justify-between">
+					<h3 class="text-lg font-semibold text-white">{mode.name}</h3>
+					<kbd class="rounded border border-white/15 bg-white/5 px-2 py-0.5 font-mono text-xs text-slate-300">
+						{mode.shortcut}
+					</kbd>
+				</div>
+				<p class="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{mode.description}</p>
+			</div>
+		))}
+	</div>
+
+	<p class="mt-10 text-center text-sm text-slate-500">
+		Press a single key. Watch every player snap into place.
+	</p>
+</section>

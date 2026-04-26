@@ -3,14 +3,18 @@ const rows = [
 	{ label: 'Simultaneous players', free: 'Up to 3', gold: 'Unlimited' },
 	{ label: 'All video & image formats', free: true, gold: true },
 	{ label: 'Drag & drop', free: true, gold: true },
+	{ label: 'Smart playlists & play-next queue', free: true, gold: true },
 	{ label: 'Layout save / load', free: '3 layouts', gold: 'Unlimited' },
-	{ label: 'Basic fullscreen & Classic Mode', free: true, gold: true },
+	{ label: 'Classic Mode (single-player focus)', free: true, gold: true },
+	{ label: 'Basic fullscreen', free: true, gold: true },
 	{ label: 'Screenshot capture', free: true, gold: true },
 	{ label: 'DJ Dashboard', free: false, gold: true },
-	{ label: 'Screen Maximize Mode (SMM)', free: false, gold: true },
 	{ label: 'Grid Mode', free: false, gold: true },
+	{ label: 'Screen Maximize Mode (SMM)', free: false, gold: true },
+	{ label: 'Mosaic Mode (aspect-aware) — NEW', free: false, gold: true },
 	{ label: 'URL & stream playback (YouTube, Twitch, RTSP)', free: false, gold: true },
 	{ label: 'Webcam feeds', free: false, gold: true },
+	{ label: 'Mirror & sync', free: false, gold: true },
 	{ label: 'Advanced shortcuts & player swapping', free: false, gold: true },
 	{ label: 'Priority support', free: false, gold: true },
 	{ label: 'Commercial use', free: false, gold: true },
@@ -27,20 +31,39 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 			Start free. Go Gold when you're ready.
 		</h2>
 		<p class="mt-4 text-lg text-slate-300">
-			Free forever. Upgrade to unlock unlimited players, the DJ Dashboard, and everything below.
+			Free forever. Upgrade to unlock unlimited players, every layout mode, and the full DJ Dashboard.
 		</p>
 	</div>
 
-	<div class="mb-14 grid gap-6 lg:grid-cols-2">
-		<div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur">
+	<div class="mb-14 grid gap-6 lg:grid-cols-3">
+		<div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur lg:col-span-1">
 			<p class="text-sm font-semibold uppercase tracking-widest text-slate-400">Free</p>
 			<div class="mt-3 flex items-baseline gap-2">
 				<span class="text-5xl font-bold text-white">$0</span>
 				<span class="text-slate-400">forever</span>
 			</div>
 			<p class="mt-4 text-slate-400">
-				Everything you need to run up to 3 video players on one machine. No time limits, no credit card.
+				Up to 3 players, smart playlists, Classic Mode, and everything you need for everyday viewing.
+				No time limits. No credit card.
 			</p>
+			<ul class="mt-6 space-y-2 text-sm text-slate-300">
+				<li class="flex items-start gap-2">
+					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+					Up to 3 simultaneous players
+				</li>
+				<li class="flex items-start gap-2">
+					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+					Smart playlists & play next
+				</li>
+				<li class="flex items-start gap-2">
+					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+					Classic Mode + basic fullscreen
+				</li>
+				<li class="flex items-start gap-2">
+					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+					3 saved layouts
+				</li>
+			</ul>
 			<a
 				href="#"
 				aria-disabled="true"
@@ -50,32 +73,79 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 			</a>
 		</div>
 
-		<div class="relative overflow-hidden rounded-2xl border border-fuchsia-400/40 bg-gradient-to-br from-fuchsia-500/10 via-purple-500/5 to-cyan-400/10 p-8 shadow-[0_0_60px_-20px_rgba(217,70,239,0.6)] backdrop-blur">
-			<div class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
-			<div class="flex items-center justify-between">
-				<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-200">Gold</p>
-				<span class="rounded-full border border-fuchsia-400/40 bg-fuchsia-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-fuchsia-100">
-					Founder's pricing
-				</span>
+		<div class="relative overflow-hidden rounded-2xl border border-fuchsia-400/40 bg-gradient-to-br from-fuchsia-500/10 via-purple-500/5 to-cyan-400/10 shadow-[0_0_60px_-20px_rgba(217,70,239,0.6)] backdrop-blur lg:col-span-2">
+			<div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+			<div class="grid items-stretch md:grid-cols-2">
+				<div class="relative overflow-hidden md:order-2">
+					<img
+						src="/ultiplay-gold.jpg"
+						alt="Ultiplay Gold — character with golden mirrored sunglasses reflecting a grid of premium video streams"
+						class="h-full w-full object-cover"
+						width="1024"
+						height="768"
+						loading="lazy"
+					/>
+					<div class="pointer-events-none absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#1a0a1f]/60 md:to-[#1a0a1f]"></div>
+					<div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1a0a1f]/80 via-transparent to-transparent md:from-transparent"></div>
+				</div>
+
+				<div class="relative p-8 md:order-1">
+					<div class="flex items-center justify-between gap-3">
+						<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-200">Gold</p>
+						<span class="rounded-full border border-amber-300/40 bg-amber-400/15 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-200">
+							Founder's pricing
+						</span>
+					</div>
+
+					<div class="mt-3 flex items-baseline gap-3">
+						<span class="text-5xl font-bold text-white">$14.99</span>
+						<span class="text-lg text-slate-500 line-through">$39.99</span>
+					</div>
+					<p class="mt-2 text-xs font-medium uppercase tracking-widest text-fuchsia-300">
+						Early adopter price — going up as Ultiplay grows
+					</p>
+
+					<p class="mt-5 text-slate-300">
+						Unlimited players. Every layout mode including the new Mosaic. The full DJ Dashboard.
+						Live streams, webcams, mirroring, and commercial use.
+					</p>
+
+					<ul class="mt-6 grid gap-2 text-sm text-slate-200 sm:grid-cols-2">
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							Unlimited players
+						</li>
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							Mosaic, Grid, SMM
+						</li>
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							DJ Dashboard
+						</li>
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							Live streams + webcams
+						</li>
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							Unlimited layouts
+						</li>
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							Commercial use
+						</li>
+					</ul>
+
+					<a
+						href="#"
+						aria-disabled="true"
+						class="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
+					>
+						Get Gold — Coming soon
+					</a>
+				</div>
 			</div>
-			<div class="mt-3 flex items-baseline gap-3">
-				<span class="text-5xl font-bold text-white">$14.99</span>
-				<span class="text-lg text-slate-500 line-through">$39.99</span>
-			</div>
-			<p class="mt-2 text-xs font-medium uppercase tracking-widest text-fuchsia-300">
-				Early adopter price — going up as Ultiplay grows
-			</p>
-			<p class="mt-4 text-slate-300">
-				Unlimited players, the DJ Dashboard, Screen Maximize Mode, streaming, webcams, unlimited
-				layouts, and commercial use.
-			</p>
-			<a
-				href="#"
-				aria-disabled="true"
-				class="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
-			>
-				Get Gold — Coming soon
-			</a>
 		</div>
 	</div>
 
