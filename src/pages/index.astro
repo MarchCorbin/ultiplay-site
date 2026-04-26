@@ -8,9 +8,49 @@ import Features from '../components/Features.astro';
 import Comparison from '../components/Comparison.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import Footer from '../components/Footer.astro';
+
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'SoftwareApplication',
+		name: 'Ultiplay',
+		applicationCategory: 'MultimediaApplication',
+		applicationSubCategory: 'Video Player',
+		operatingSystem: 'Windows 10, Windows 11',
+		description:
+			'Ultiplay is a multi-video player for Windows that scales from a single perfectly-controlled player to a full multi-screen video wall — with one-button cinematic layouts including Classic, Grid, Screen Maximize, and Mosaic Mode.',
+		url: 'https://ultiplay.net',
+		image: 'https://ultiplay.net/ultiplay-hero.jpg',
+		featureList: [
+			'Classic, Grid, Screen Maximize, and Mosaic layout modes',
+			'Smart playlists with play-next queue',
+			'URL and stream playback (YouTube, Twitch, RTSP)',
+			'Webcam feed integration',
+			'DJ Dashboard for live control',
+			'Mirror & sync between players',
+			'Built-in screen recording',
+			'Unlimited saved layouts',
+		],
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: 'Ultiplay',
+		alternateName: 'Your Play. Your Way.',
+		url: 'https://ultiplay.net',
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		name: 'Ultiplay',
+		url: 'https://ultiplay.net',
+		logo: 'https://ultiplay.net/favicon.svg',
+		email: 'support@ultiplay.net',
+	},
+];
 ---
 
-<Layout>
+<Layout jsonLd={jsonLd}>
 	<Nav />
 	<Hero />
 	<VideoSection />

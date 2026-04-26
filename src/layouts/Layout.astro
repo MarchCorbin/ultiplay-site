@@ -2,12 +2,19 @@
 interface Props {
 	title?: string;
 	description?: string;
+	ogImage?: string;
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
 	title = 'Ultiplay — Your Play. Your Way.',
 	description = 'Your Play. Your Way. Ultiplay is the multi-video player for Windows that scales from a single perfectly-controlled player to a full multi-screen video wall — with one-button cinematic layouts including Classic, Grid, Screen Maximize, and Mosaic Mode.',
+	ogImage = '/ultiplay-hero.jpg',
+	jsonLd,
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageURL = new URL(ogImage, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -17,15 +24,33 @@ const {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		<meta name="theme-color" content="#0b0514" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Ultiplay" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content="/ultiplay-hero.jpg" />
-		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:alt" content="Ultiplay — multi-video player for Windows with one-button cinematic layouts" />
+
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="theme-color" content="#0b0514" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageURL} />
+
 		<title>{title}</title>
+
+		{jsonLd && (
+			<script
+				type="application/ld+json"
+				is:inline
+				set:html={JSON.stringify(jsonLd)}
+			/>
+		)}
 	</head>
 	<body class="min-h-screen bg-[#070310] text-slate-100 antialiased selection:bg-fuchsia-500/40 selection:text-white">
 		<slot />

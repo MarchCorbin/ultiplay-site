@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /thanks/
+
+Sitemap: https://ultiplay.net/sitemap-index.xml
