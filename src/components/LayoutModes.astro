@@ -30,7 +30,6 @@ const modes = [
 		description:
 			"Adapts dynamically to each video's aspect ratio for a perfectly cinematic layout. No black bars. No awkward gaps.",
 		diagram: 'mosaic',
-		isNew: true,
 	},
 ];
 ---
@@ -50,12 +49,6 @@ const modes = [
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 		{modes.map((mode) => (
 			<div class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur transition hover:border-fuchsia-400/40 hover:bg-white/[0.06]">
-				{mode.isNew && (
-					<span class="absolute right-4 top-4 rounded-full border border-fuchsia-400/40 bg-fuchsia-500/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-fuchsia-100">
-						New
-					</span>
-				)}
-
 				<div class="relative mb-5 aspect-video overflow-hidden rounded-lg border border-white/10 bg-slate-950 p-2">
 					{mode.diagram === 'classic' && (
 						<div class="h-full w-full rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40 ring-1 ring-fuchsia-400/30"></div>

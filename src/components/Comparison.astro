@@ -4,20 +4,21 @@ const rows = [
 	{ label: 'All video & image formats', free: true, gold: true },
 	{ label: 'Drag & drop', free: true, gold: true },
 	{ label: 'Smart playlists & play-next queue', free: true, gold: true },
-	{ label: 'Layout save / load', free: '3 layouts', gold: 'Unlimited' },
-	{ label: 'Classic Mode (single-player focus)', free: true, gold: true },
+	{ label: 'Layout save / load', free: 'Unlimited', gold: 'Unlimited' },
+	{ label: 'Classic Mode', free: true, gold: true },
+	{ label: 'Grid Mode', free: true, gold: true },
+	{ label: 'Screen Maximize Mode (SMM)', free: true, gold: true },
+	{ label: 'Mosaic Mode (aspect-aware)', free: true, gold: true },
+	{ label: 'URL & stream playback (YouTube, Twitch, RTSP)', free: true, gold: true },
+	{ label: 'Webcam feeds', free: true, gold: true },
 	{ label: 'Basic fullscreen', free: true, gold: true },
 	{ label: 'Screenshot capture', free: true, gold: true },
 	{ label: 'DJ Dashboard', free: false, gold: true },
-	{ label: 'Grid Mode', free: false, gold: true },
-	{ label: 'Screen Maximize Mode (SMM)', free: false, gold: true },
-	{ label: 'Mosaic Mode (aspect-aware) — NEW', free: false, gold: true },
-	{ label: 'URL & stream playback (YouTube, Twitch, RTSP)', free: false, gold: true },
-	{ label: 'Webcam feeds', free: false, gold: true },
 	{ label: 'Mirror & sync', free: false, gold: true },
+	{ label: 'Duplicate playlists', free: false, gold: true },
+	{ label: 'Screen recording', free: false, gold: true },
 	{ label: 'Advanced shortcuts & player swapping', free: false, gold: true },
 	{ label: 'Priority support', free: false, gold: true },
-	{ label: 'Commercial use', free: false, gold: true },
 ];
 
 const Check = `<svg class="mx-auto h-5 w-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`;
@@ -31,7 +32,8 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 			Start free. Go Gold when you're ready.
 		</h2>
 		<p class="mt-4 text-lg text-slate-300">
-			Free forever. Upgrade to unlock unlimited players, every layout mode, and the full DJ Dashboard.
+			Free gets you all four layout modes, streaming, webcams, and unlimited saved layouts. Go Gold
+			for unlimited players, the full DJ Dashboard, and the pro toolkit.
 		</p>
 	</div>
 
@@ -43,8 +45,8 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 				<span class="text-slate-400">forever</span>
 			</div>
 			<p class="mt-4 text-slate-400">
-				Up to 3 players, smart playlists, Classic Mode, and everything you need for everyday viewing.
-				No time limits. No credit card.
+				Up to 3 players with the full layout toolkit, streaming, webcams, and unlimited saved
+				layouts. No time limits. No credit card.
 			</p>
 			<ul class="mt-6 space-y-2 text-sm text-slate-300">
 				<li class="flex items-start gap-2">
@@ -53,15 +55,15 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 				</li>
 				<li class="flex items-start gap-2">
 					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-					Smart playlists & play next
+					All modes: Classic, Grid, SMM, Mosaic
 				</li>
 				<li class="flex items-start gap-2">
 					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-					Classic Mode + basic fullscreen
+					Streaming, webcams & smart playlists
 				</li>
 				<li class="flex items-start gap-2">
 					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-					3 saved layouts
+					Unlimited saved layouts
 				</li>
 			</ul>
 			<a
@@ -106,8 +108,8 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 					</p>
 
 					<p class="mt-5 text-slate-300">
-						Unlimited players. Every layout mode including the new Mosaic. The full DJ Dashboard.
-						Live streams, webcams, mirroring, and commercial use.
+						Unlimited players, the full DJ Dashboard for total control, mirror & sync, duplicate
+						playlists, and built-in screen recording. The complete pro toolkit.
 					</p>
 
 					<ul class="mt-6 grid gap-2 text-sm text-slate-200 sm:grid-cols-2">
@@ -117,23 +119,23 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 						</li>
 						<li class="flex items-start gap-2">
 							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-							Mosaic, Grid, SMM
-						</li>
-						<li class="flex items-start gap-2">
-							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
 							DJ Dashboard
 						</li>
 						<li class="flex items-start gap-2">
 							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-							Live streams + webcams
+							Mirror & sync
 						</li>
 						<li class="flex items-start gap-2">
 							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-							Unlimited layouts
+							Duplicate playlists
 						</li>
 						<li class="flex items-start gap-2">
 							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-							Commercial use
+							Screen recording
+						</li>
+						<li class="flex items-start gap-2">
+							<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-fuchsia-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							Priority support
 						</li>
 					</ul>
 
