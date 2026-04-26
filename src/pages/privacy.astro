@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const lastUpdated = 'April 19, 2026';
+---
+
+<Layout title="Privacy Policy — Ultiplay" description="How Ultiplay collects, uses, and protects your information.">
+	<Nav />
+
+	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+		<header>
+			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
+			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">Privacy Policy</h1>
+			<p class="mt-3 text-sm text-slate-500">Last updated: {lastUpdated}</p>
+		</header>
+
+		<div class="prose-invert mt-12 space-y-8 text-slate-300">
+			<section>
+				<h2 class="text-2xl font-bold text-white">Who we are</h2>
+				<p class="mt-3">
+					Ultiplay ("we", "us", "our") is an independent software product. This policy describes how
+					we handle information you provide through this website. The Ultiplay desktop application
+					has its own End User License Agreement (EULA) that ships with the installer.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">What we collect</h2>
+				<ul class="mt-3 list-disc space-y-2 pl-6">
+					<li>
+						<strong class="text-white">Email addresses</strong> you submit to our launch waitlist or
+						contact form. We use these only to notify you about Ultiplay's launch and to respond to
+						your messages.
+					</li>
+					<li>
+						<strong class="text-white">Anonymous usage data</strong> via our hosting provider
+						(Vercel) — including basic page views, country, and browser type. No personal
+						identifiers are collected.
+					</li>
+					<li>
+						<strong class="text-white">Cookies</strong> may be set by embedded third-party content
+						(see "Third-party services" below).
+					</li>
+				</ul>
+				<p class="mt-3">
+					We do not sell, rent, or share your email or any personal information with third parties
+					for marketing purposes.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Third-party services</h2>
+				<p class="mt-3">This site uses the following third-party providers:</p>
+				<ul class="mt-3 list-disc space-y-2 pl-6">
+					<li>
+						<strong class="text-white">Vercel</strong> — hosting and basic analytics.
+					</li>
+					<li>
+						<strong class="text-white">Formspree</strong> — processes our waitlist and contact form
+						submissions.
+					</li>
+					<li>
+						<strong class="text-white">YouTube (Google)</strong> — embeds the product commercial.
+						YouTube may set its own cookies when the player is loaded.
+					</li>
+					<li>
+						<strong class="text-white">Lemon Squeezy</strong> — once Ultiplay is purchasable, all
+						checkout, payment processing, and license-key delivery is handled by Lemon Squeezy
+						under their own privacy policy.
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">How we store and protect your data</h2>
+				<p class="mt-3">
+					Email addresses submitted through this site are stored by Formspree and exported only to
+					send launch announcements. We retain waitlist emails until you ask us to remove them or
+					until twelve (12) months after Ultiplay's public launch, whichever comes first.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Your rights</h2>
+				<p class="mt-3">
+					You can request access to, correction of, or deletion of any personal data we hold about
+					you at any time by emailing
+					<a href="mailto:support@ultiplay.app" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.app</a>.
+					We will respond within thirty (30) days.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Children</h2>
+				<p class="mt-3">
+					Ultiplay is not directed at children under 13 (or under 16 in the EU/UK), and we do not
+					knowingly collect information from them.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Changes to this policy</h2>
+				<p class="mt-3">
+					We may update this policy as the product evolves. The "Last updated" date at the top will
+					reflect any change. Material changes will be announced on this page.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Contact</h2>
+				<p class="mt-3">
+					Questions about this policy? Email
+					<a href="mailto:support@ultiplay.app" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.app</a>.
+				</p>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
