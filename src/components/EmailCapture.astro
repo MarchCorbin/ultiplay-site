@@ -99,14 +99,18 @@ const REDIRECT_ON_SUCCESS = '/thanks';
 
 			if (!form.reportValidity()) return;
 
+			// Build FormData BEFORE locking the inputs. Disabled inputs are excluded
+			// from FormData by spec, which would silently drop the email field.
+			const payload = new FormData(form);
+
 			submitBtn?.setAttribute('disabled', '');
-			emailInput?.setAttribute('disabled', '');
+			emailInput?.setAttribute('readonly', '');
 			if (btnLabel) btnLabel.textContent = 'Sending…';
 
 			try {
 				const response = await fetch(form.action, {
 					method: 'POST',
-					body: new FormData(form),
+					body: payload,
 					headers: { Accept: 'application/json' },
 				});
 
@@ -129,7 +133,7 @@ const REDIRECT_ON_SUCCESS = '/thanks';
 				showError("Couldn't reach the server. Check your connection and try again.");
 			} finally {
 				submitBtn?.removeAttribute('disabled');
-				emailInput?.removeAttribute('disabled');
+				emailInput?.removeAttribute('readonly');
 				if (btnLabel) btnLabel.textContent = originalLabel;
 			}
 		});
