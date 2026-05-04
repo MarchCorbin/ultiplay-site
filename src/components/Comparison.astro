@@ -1,4 +1,6 @@
 ---
+import { LEMONSQUEEZY, PRICING } from '../config/products';
+
 const rows = [
 	{ label: 'Simultaneous players', free: 'Up to 3', gold: 'Unlimited' },
 	{ label: 'All video & image formats', free: true, gold: true },
@@ -67,11 +69,11 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 				</li>
 			</ul>
 			<a
-				href="#notify"
+				href={LEMONSQUEEZY.freeDownload}
 				class="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
 			>
-				Notify me at launch
-				<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+				<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+				Download Free
 			</a>
 		</div>
 
@@ -100,8 +102,8 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 					</div>
 
 					<div class="mt-3 flex items-baseline gap-3">
-						<span class="text-5xl font-bold text-white">$14.99</span>
-						<span class="text-lg text-slate-500 line-through">$39.99</span>
+						<span class="text-5xl font-bold text-white">{PRICING.goldPrice}</span>
+						<span class="text-lg text-slate-500 line-through">{PRICING.goldOriginalPrice}</span>
 					</div>
 					<p class="mt-2 text-xs font-medium uppercase tracking-widest text-fuchsia-300">
 						Early adopter price
@@ -155,14 +157,14 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 					</ul>
 
 					<a
-						href="#notify"
+						href={LEMONSQUEEZY.goldPurchase}
 						class="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
 					>
-						Reserve founder's pricing
+						Get Ultiplay Gold — {PRICING.goldPrice}
 						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
 					</a>
 					<p class="mt-3 text-center text-[11px] text-slate-400">
-						No charge today — we'll email you the moment Gold is purchasable.
+						Secure checkout via Lemon Squeezy · 14-day refund policy · Lifetime updates.
 					</p>
 				</div>
 			</div>

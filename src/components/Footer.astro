@@ -1,8 +1,7 @@
 ---
-const year = new Date().getFullYear();
+import { LEMONSQUEEZY } from '../config/products';
 
-// Update this once you've claimed an email address on your domain.
-// Free options: Cloudflare Email Routing, ImprovMX, or your domain registrar's forwarder.
+const year = new Date().getFullYear();
 const supportEmail = 'support@ultiplay.net';
 ---
 
@@ -35,7 +34,7 @@ const supportEmail = 'support@ultiplay.net';
 					<li><a href="/#modes" class="transition hover:text-white">Layout modes</a></li>
 					<li><a href="/#features" class="transition hover:text-white">Features</a></li>
 					<li><a href="/#pricing" class="transition hover:text-white">Pricing</a></li>
-					<li><a href="/#notify" class="transition hover:text-white">Launch waitlist</a></li>
+					<li><a href={LEMONSQUEEZY.freeDownload} class="transition hover:text-white">Download Free</a></li>
 				</ul>
 			</div>
 
