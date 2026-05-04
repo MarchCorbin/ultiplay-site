@@ -20,3 +20,16 @@ export const PRICING = {
 	goldPrice: '$14.99',
 	goldOriginalPrice: '$39.99',
 } as const;
+
+// Master toggle for the site's launch state.
+//
+//   liveLaunch: false  → waitlist mode. Email capture is shown on the homepage
+//                        and every primary CTA routes to "/#notify".
+//   liveLaunch: true   → live mode. Email capture is hidden and primary CTAs
+//                        route to the Lemon Squeezy checkout URLs above.
+//
+// Flip this single value once Lemon Squeezy unlocks live mode and the
+// end-to-end purchase loop has been verified.
+export const SITE = {
+	liveLaunch: false,
+} as const;

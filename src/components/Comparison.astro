@@ -1,5 +1,12 @@
 ---
-import { LEMONSQUEEZY, PRICING } from '../config/products';
+import { LEMONSQUEEZY, PRICING, SITE } from '../config/products';
+
+const freeHref = SITE.liveLaunch ? LEMONSQUEEZY.freeDownload : '/#notify';
+const freeLabel = SITE.liveLaunch ? 'Download Free' : 'Notify me at launch';
+const goldHref = SITE.liveLaunch ? LEMONSQUEEZY.goldPurchase : '/#notify';
+const goldLabel = SITE.liveLaunch
+	? `Get Ultiplay Gold — ${PRICING.goldPrice}`
+	: "Reserve founder's pricing";
 
 const rows = [
 	{ label: 'Simultaneous players', free: 'Up to 3', gold: 'Unlimited' },
@@ -69,11 +76,15 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 				</li>
 			</ul>
 			<a
-				href={LEMONSQUEEZY.freeDownload}
+				href={freeHref}
 				class="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
 			>
-				<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
-				Download Free
+				{SITE.liveLaunch ? (
+					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+				) : (
+					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0"/></svg>
+				)}
+				{freeLabel}
 			</a>
 		</div>
 
@@ -157,14 +168,16 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 					</ul>
 
 					<a
-						href={LEMONSQUEEZY.goldPurchase}
+						href={goldHref}
 						class="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
 					>
-						Get Ultiplay Gold — {PRICING.goldPrice}
+						{goldLabel}
 						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
 					</a>
 					<p class="mt-3 text-center text-[11px] text-slate-400">
-						Secure checkout via Lemon Squeezy · 14-day refund policy · Lifetime updates.
+						{SITE.liveLaunch
+							? 'Secure checkout via Lemon Squeezy · 14-day refund policy · Lifetime updates.'
+							: "Get notified the moment Ultiplay Gold is live · Lock in founder's pricing."}
 					</p>
 				</div>
 			</div>

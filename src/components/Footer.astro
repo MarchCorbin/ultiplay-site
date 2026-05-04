@@ -1,8 +1,10 @@
 ---
-import { LEMONSQUEEZY } from '../config/products';
+import { LEMONSQUEEZY, SITE } from '../config/products';
 
 const year = new Date().getFullYear();
 const supportEmail = 'support@ultiplay.net';
+const ctaHref = SITE.liveLaunch ? LEMONSQUEEZY.freeDownload : '/#notify';
+const ctaLabel = SITE.liveLaunch ? 'Download Free' : 'Launch waitlist';
 ---
 
 <footer class="mt-10 border-t border-white/5 py-12">
@@ -34,7 +36,7 @@ const supportEmail = 'support@ultiplay.net';
 					<li><a href="/#modes" class="transition hover:text-white">Layout modes</a></li>
 					<li><a href="/#features" class="transition hover:text-white">Features</a></li>
 					<li><a href="/#pricing" class="transition hover:text-white">Pricing</a></li>
-					<li><a href={LEMONSQUEEZY.freeDownload} class="transition hover:text-white">Download Free</a></li>
+					<li><a href={ctaHref} class="transition hover:text-white">{ctaLabel}</a></li>
 				</ul>
 			</div>
 

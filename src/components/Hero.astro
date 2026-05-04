@@ -1,5 +1,12 @@
 ---
-import { LEMONSQUEEZY } from '../config/products';
+import { LEMONSQUEEZY, SITE } from '../config/products';
+
+const primaryHref = SITE.liveLaunch ? LEMONSQUEEZY.freeDownload : '/#notify';
+const primaryLabel = SITE.liveLaunch ? 'Download Ultiplay Free' : 'Get notified at launch';
+const microline = SITE.liveLaunch
+	? 'Free · Windows 10 / 11 · 64-bit · No credit card'
+	: 'Launching soon · Windows 10 / 11 · 64-bit';
+const accessBadge = SITE.liveLaunch ? 'Now in early access' : 'Founder’s launch coming soon';
 ---
 
 <section id="top" class="relative isolate overflow-hidden">
@@ -9,7 +16,7 @@ import { LEMONSQUEEZY } from '../config/products';
 				class="mb-6 inline-flex items-center gap-2 rounded-full border border-fuchsia-400/30 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-fuchsia-200"
 			>
 				<span class="h-1.5 w-1.5 rounded-full bg-fuchsia-400 shadow-[0_0_10px_rgba(236,72,153,0.9)]"></span>
-				Now in early access
+				{accessBadge}
 			</span>
 
 			<h1 class="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
@@ -32,13 +39,19 @@ import { LEMONSQUEEZY } from '../config/products';
 
 			<div class="mt-10 flex flex-wrap items-center gap-4">
 				<a
-					href={LEMONSQUEEZY.freeDownload}
+					href={primaryHref}
 					class="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
 				>
-					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"></path>
-					</svg>
-					Download Ultiplay Free
+					{SITE.liveLaunch ? (
+						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"></path>
+						</svg>
+					) : (
+						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0"></path>
+						</svg>
+					)}
+					{primaryLabel}
 				</a>
 				<a
 					href="#demo"
@@ -52,7 +65,7 @@ import { LEMONSQUEEZY } from '../config/products';
 			</div>
 
 			<p class="mt-4 text-xs font-medium uppercase tracking-widest text-slate-500">
-				Free · Windows 10 / 11 · 64-bit · No credit card
+				{microline}
 			</p>
 
 			<dl class="mt-12 grid grid-cols-3 gap-6 border-t border-white/10 pt-8 text-sm">

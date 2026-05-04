@@ -1,5 +1,8 @@
 ---
-import { LEMONSQUEEZY } from '../config/products';
+import { LEMONSQUEEZY, SITE } from '../config/products';
+
+const ctaHref = SITE.liveLaunch ? LEMONSQUEEZY.freeDownload : '/#notify';
+const ctaLabel = SITE.liveLaunch ? 'Download Free' : 'Get notified';
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/5 bg-[#070310]/70 backdrop-blur-xl">
@@ -32,10 +35,10 @@ import { LEMONSQUEEZY } from '../config/products';
 		</div>
 
 		<a
-			href={LEMONSQUEEZY.freeDownload}
+			href={ctaHref}
 			class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-950 shadow-[0_0_20px_rgba(255,255,255,0.15)] transition hover:bg-slate-100"
 		>
-			Download Free
+			{ctaLabel}
 		</a>
 	</nav>
 </header>
