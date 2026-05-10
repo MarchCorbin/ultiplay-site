@@ -1,35 +1,47 @@
 ---
-const modes = [
+type Mode = {
+	name: string;
+	shortcut: string;
+	description: string;
+	image: string;
+	video?: string;
+	imageAlt: string;
+};
+
+const modes: Mode[] = [
 	{
 		name: 'Classic',
 		shortcut: 'C',
 		description:
 			'Single-player focus. Full window, no distractions. Perfect for everyday watching with smart playlists and a play-next queue.',
-		diagram: 'classic',
-		isNew: false,
+		image: '/modes/classic.webp',
+		video: '/modes/classic.mp4',
+		imageAlt: 'Ultiplay in Classic Mode — a single video player filling the window',
 	},
 	{
 		name: 'Grid',
 		shortcut: 'G',
 		description:
 			"Auto-arrange every player into an equal grid. 2×2, 3×3, or whatever fits — instantly, with one keystroke.",
-		diagram: 'grid',
-		isNew: false,
+		image: '/modes/grid.webp',
+		imageAlt: 'Ultiplay in Grid Mode — multiple video players arranged in an equal grid',
 	},
 	{
 		name: 'Screen Maximize',
 		shortcut: 'F',
 		description:
 			'Spread players across every monitor with smart per-screen optimization. Built for multi-monitor rigs and video walls.',
-		diagram: 'smm',
-		isNew: false,
+		image: '/modes/smm.webp',
+		video: '/modes/smm.mp4',
+		imageAlt: 'Ultiplay in Screen Maximize Mode — players distributed across multiple monitors',
 	},
 	{
 		name: 'Mosaic',
 		shortcut: 'M',
 		description:
 			"Adapts dynamically to each video's aspect ratio for a perfectly cinematic layout. No black bars. No awkward gaps.",
-		diagram: 'mosaic',
+		image: '/modes/mosaic.webp',
+		imageAlt: 'Ultiplay in Mosaic Mode — players auto-fitted to varying aspect ratios',
 	},
 ];
 ---
@@ -49,41 +61,29 @@ const modes = [
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 		{modes.map((mode) => (
 			<div class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur transition hover:border-fuchsia-400/40 hover:bg-white/[0.06]">
-				<div class="relative mb-5 aspect-video overflow-hidden rounded-lg border border-white/10 bg-slate-950 p-2">
-					{mode.diagram === 'classic' && (
-						<div class="h-full w-full rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40 ring-1 ring-fuchsia-400/30"></div>
+				<div class="relative mb-5 aspect-video overflow-hidden rounded-lg border border-white/10 bg-slate-950">
+					{mode.video ? (
+						<video
+							class="h-full w-full object-cover"
+							src={mode.video}
+							poster={mode.image}
+							autoplay
+							muted
+							loop
+							playsinline
+							preload="metadata"
+							aria-label={mode.imageAlt}
+						></video>
+					) : (
+						<img
+							src={mode.image}
+							alt={mode.imageAlt}
+							class="h-full w-full object-cover"
+							loading="lazy"
+							decoding="async"
+						/>
 					)}
-
-					{mode.diagram === 'grid' && (
-						<div class="grid h-full w-full grid-cols-3 grid-rows-2 gap-1">
-							{Array.from({ length: 6 }).map(() => (
-								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40 ring-1 ring-fuchsia-400/20"></div>
-							))}
-						</div>
-					)}
-
-					{mode.diagram === 'smm' && (
-						<div class="flex h-full w-full items-stretch gap-1.5">
-							<div class="grid flex-1 grid-cols-2 grid-rows-2 gap-1 rounded border border-white/10 bg-black/40 p-1">
-								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
-								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
-								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
-								<div class="rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
-							</div>
-							<div class="flex flex-1 items-stretch rounded border border-white/10 bg-black/40 p-1">
-								<div class="h-full w-full rounded bg-gradient-to-br from-fuchsia-500/40 to-cyan-400/40"></div>
-							</div>
-						</div>
-					)}
-
-					{mode.diagram === 'mosaic' && (
-						<div class="grid h-full w-full grid-cols-4 grid-rows-3 gap-1">
-							<div class="col-span-2 row-span-2 rounded bg-gradient-to-br from-fuchsia-500/50 to-pink-400/50 ring-1 ring-fuchsia-400/40"></div>
-							<div class="col-span-1 row-span-2 rounded bg-gradient-to-br from-cyan-400/50 to-blue-500/50 ring-1 ring-cyan-400/40"></div>
-							<div class="col-span-1 row-span-2 rounded bg-gradient-to-br from-purple-500/50 to-fuchsia-500/50 ring-1 ring-purple-400/40"></div>
-							<div class="col-span-4 row-span-1 rounded bg-gradient-to-br from-amber-400/50 to-fuchsia-500/50 ring-1 ring-amber-400/40"></div>
-						</div>
-					)}
+					<div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
 				</div>
 
 				<div class="flex items-center justify-between">
