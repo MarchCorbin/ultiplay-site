@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import {
+	LEGAL_EFFECTIVE_DATE,
+	LEGAL_ROUTES,
+	mailtoHref,
+	EMAILS,
+} from '../config/legal';
+---
+
+<Layout
+	title="Acceptable Use Policy — Ultiplay"
+	description="Ultiplay's Acceptable Use Policy, including content responsibility, prohibited conduct, and how to report abuse."
+>
+	<Nav />
+
+	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+		<header>
+			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
+			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+				Acceptable Use Policy
+			</h1>
+			<p class="mt-3 text-sm text-slate-500">
+				Effective: {LEGAL_EFFECTIVE_DATE} &nbsp;·&nbsp;
+				<a href={LEGAL_ROUTES.index} class="underline hover:text-slate-300">Back to legal index</a>
+			</p>
+		</header>
+
+		<div class="mt-12 space-y-10 text-slate-300">
+			<section>
+				<p>
+					This Acceptable Use Policy (<strong class="text-white">"AUP"</strong>) governs your
+					conduct while using the Services. Violation may result in suspension, termination,
+					license revocation, refund denial, and/or referral to law enforcement.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">1. You are responsible for your content</h2>
+				<p class="mt-3">
+					The Software plays, records, captures, and streams media that
+					<strong class="text-white"> you</strong> load or fetch. Ultiplay does not pre-screen,
+					host, monitor, or moderate that content. You are solely responsible for ensuring you have
+					all necessary rights, licenses, and permissions to use that content with the Software,
+					and that your use of any third-party service the Software interacts with complies with
+					that service's terms of service.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">2. Prohibited conduct</h2>
+				<p class="mt-3">You may NOT use the Services to:</p>
+				<ul class="mt-3 list-disc space-y-2 pl-6">
+					<li>
+						<strong class="text-white">(a)</strong> infringe any patent, trademark, trade secret,
+						copyright, right of publicity, or other intellectual-property right;
+					</li>
+					<li>
+						<strong class="text-white">(b)</strong> violate any applicable law, regulation, court
+						order, or third-party right, including privacy and data-protection laws;
+					</li>
+					<li>
+						<strong class="text-white">(c)</strong> record, capture, or distribute any content you
+						do not have the legal right to record, capture, or distribute, including content
+						protected by anti-circumvention provisions of the DMCA (17 U.S.C. § 1201) where you do
+						not qualify for a statutory or regulatory exemption;
+					</li>
+					<li>
+						<strong class="text-white">(d)</strong> circumvent or attempt to circumvent any
+						technological protection measure on third-party content (consistent with applicable
+						law);
+					</li>
+					<li>
+						<strong class="text-white">(e)</strong> create, store, transmit, or display content
+						that is illegal in your jurisdiction or in the United States, including but not
+						limited to <strong class="text-white">child sexual abuse material (CSAM)</strong>,
+						content that solicits or facilitates exploitation of minors, content that incites
+						violence, or content that constitutes harassment or stalking;
+					</li>
+					<li>
+						<strong class="text-white">(f)</strong> harass, threaten, defame, or invade the
+						privacy of any person;
+					</li>
+					<li>
+						<strong class="text-white">(g)</strong> introduce malware, viruses, or other harmful
+						code, or attempt to gain unauthorized access to any system, account, network, or
+						data;
+					</li>
+					<li>
+						<strong class="text-white">(h)</strong> probe, scan, or test the vulnerability of
+						Ultiplay's systems without prior written permission, or disrupt or interfere with the
+						Services or any user's enjoyment of them;
+					</li>
+					<li>
+						<strong class="text-white">(i)</strong> scrape, harvest, or collect information from
+						the Services using automated means except via interfaces we have explicitly
+						authorized;
+					</li>
+					<li>
+						<strong class="text-white">(j)</strong> use the Free Tier in any commercial setting
+						(see <a href={LEGAL_ROUTES.eula} class="text-fuchsia-300 underline hover:text-fuchsia-200">EULA § 1.2</a>);
+						or
+					</li>
+					<li>
+						<strong class="text-white">(k)</strong> use the Services to violate the terms of
+						service of any third-party platform you access through them (including but not
+						limited to YouTube, Twitch, and any other site reachable via the Software's URL input
+						or
+						<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">yt-dlp</code> integration).
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">3. Reporting abuse</h2>
+				<p class="mt-3">
+					To report a suspected violation of this AUP, email
+					<a href={mailtoHref('abuse')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.abuse}</a>
+					with as much detail as possible. To report alleged copyright infringement, follow the
+					<a href={LEGAL_ROUTES.dmca} class="text-fuchsia-300 underline hover:text-fuchsia-200">DMCA procedure</a>.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">4. Investigations and cooperation</h2>
+				<p class="mt-3">
+					We may investigate suspected violations and cooperate with law enforcement and rights
+					holders as required by law. We may preserve and disclose information about you and your
+					use of the Services if we reasonably believe it is necessary to investigate a violation
+					or comply with legal process.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">5. Consequences</h2>
+				<p class="mt-3">
+					We reserve the right to suspend access, revoke licenses, refuse refunds, blacklist
+					devices, and pursue any other remedy available at law for AUP violations.
+				</p>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>

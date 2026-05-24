@@ -10,12 +10,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://ultiplay.net',
 
-  // Clean public URL for the installer. /download → S3 "latest" alias.
-  // The S3 object responds with Content-Disposition: attachment so the browser
-  // saves it as `Ultiplay_Setup.exe` instead of opening it.
-  redirects: {
-    '/download': 'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_latest.exe',
-  },
+  // Note: `/download` is served by `src/pages/download.astro`, a branded
+  // "your download is starting" page that triggers the actual installer
+  // download (S3 object with Content-Disposition: attachment) and gives the
+  // user a clear way back to the home screen — much friendlier than the bare
+  // meta-refresh page Astro emits for static `redirects` entries.
 
   vite: {
     plugins: [tailwindcss()]

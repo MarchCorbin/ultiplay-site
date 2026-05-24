@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { LEGAL_EFFECTIVE_DATE, LEGAL_ROUTES } from '../config/legal';
+---
+
+<Layout
+	title="Cookie Policy — Ultiplay"
+	description="Cookies and similar technologies used on the ultiplay.net website, how to manage them, and our Global Privacy Control (GPC) commitment."
+>
+	<Nav />
+
+	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+		<header>
+			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
+			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">Cookie Policy</h1>
+			<p class="mt-3 text-sm text-slate-500">
+				Effective: {LEGAL_EFFECTIVE_DATE} &nbsp;·&nbsp;
+				<a href={LEGAL_ROUTES.index} class="underline hover:text-slate-300">Back to legal index</a>
+			</p>
+		</header>
+
+		<div class="mt-12 space-y-10 text-slate-300">
+			<section>
+				<p>
+					This Cookie Policy applies to the
+					<a href="/" class="text-fuchsia-300 underline hover:text-fuchsia-200">ultiplay.net</a>
+					website.
+					<strong class="text-white"> The Ultiplay desktop application does not use cookies.</strong>
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">1. What cookies are</h2>
+				<p class="mt-3">
+					Cookies are small text files stored on your device by your browser. They allow a website
+					to recognise your device on subsequent visits. We use cookies and similar technologies
+					(such as <code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">localStorage</code>)
+					only as described below.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">2. Categories of cookies we use</h2>
+				<ul class="mt-3 list-disc space-y-3 pl-6">
+					<li>
+						<strong class="text-white">Strictly Necessary</strong> — required for the website to
+						function (e.g., session and security cookies, anti-CSRF tokens, Stripe Checkout
+						session cookies). Cannot be disabled without breaking the site.
+					</li>
+				</ul>
+				<p class="mt-4">
+					Ultiplay does <strong class="text-white">not</strong> use advertising, retargeting, or
+					cross-site behavioural-tracking cookies. We do not currently load third-party analytics
+					(such as Google Analytics) on the website. If we add analytics in the future, this Policy
+					and the
+					<a href={LEGAL_ROUTES.privacy} class="text-fuchsia-300 underline hover:text-fuchsia-200">Privacy Policy</a>
+					will be updated and — where required by law (EEA/UK/Switzerland) — a cookie banner will
+					be presented before any non-essential cookies are set.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">3. Managing cookies</h2>
+				<p class="mt-3">
+					Most browsers allow you to view, delete, or block cookies through their settings.
+					Disabling strictly-necessary cookies may break parts of the website.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">4. Do Not Track &amp; Global Privacy Control</h2>
+				<p class="mt-3">
+					Our website does not currently respond to Do Not Track (DNT) signals because no
+					industry-standard interpretation has been finalised. We do honour the
+					<strong class="text-white"> Global Privacy Control (GPC)</strong> signal where it is sent
+					by a user's browser.
+				</p>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>

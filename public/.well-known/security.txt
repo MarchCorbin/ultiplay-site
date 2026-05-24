@@ -1,0 +1,5 @@
+Contact: mailto:legal@ultiplay.net
+Expires: 2027-05-23T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://ultiplay.net/.well-known/security.txt
+Policy: https://ultiplay.net/legal

@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import {
+	LEGAL_EFFECTIVE_DATE,
+	LEGAL_ROUTES,
+	mailtoHref,
+	EMAILS,
+} from '../config/legal';
+---
+
+<Layout
+	title="Refund Policy — Ultiplay"
+	description="Ultiplay's refund policy for Gold-tier purchases, including the 14-day satisfaction window, defect refunds, and how to request a refund."
+>
+	<Nav />
+
+	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+		<header>
+			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
+			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">Refund Policy</h1>
+			<p class="mt-3 text-sm text-slate-500">
+				Effective: {LEGAL_EFFECTIVE_DATE} &nbsp;·&nbsp;
+				<a href={LEGAL_ROUTES.index} class="underline hover:text-slate-300">Back to legal index</a>
+			</p>
+		</header>
+
+		<div class="mt-12 space-y-10 text-slate-300">
+			<section>
+				<h2 class="text-2xl font-bold text-white">1. Free Tier</h2>
+				<p class="mt-3">The Free Tier is provided at no cost. No refund applies.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">2. Gold Tier</h2>
+				<p class="mt-3">
+					Because Gold license keys are delivered electronically and grant immediate access to
+					digital features, <strong class="text-white">all sales are final</strong> unless one of
+					the following applies:
+				</p>
+				<ul class="mt-3 list-disc space-y-3 pl-6">
+					<li>
+						<strong class="text-white">(a) 14-day satisfaction window:</strong> if you purchased a
+						Gold license directly from
+						<a href="/" class="text-fuchsia-300 underline hover:text-fuchsia-200">ultiplay.net</a>,
+						you may request a refund within <strong class="text-white">fourteen (14) days</strong>
+						of purchase, provided you have not violated the
+						<a href={LEGAL_ROUTES.eula} class="text-fuchsia-300 underline hover:text-fuchsia-200">EULA</a>
+						or the
+						<a href={LEGAL_ROUTES.acceptableUse} class="text-fuchsia-300 underline hover:text-fuchsia-200">Acceptable Use Policy</a>.
+						After the 14-day window, sales are final except as required by law.
+					</li>
+					<li>
+						<strong class="text-white">(b) Defect refund:</strong> if the Software fails to
+						operate substantially as described and we are unable to provide a fix or workaround
+						within a reasonable time, we will refund the purchase price upon request.
+					</li>
+					<li>
+						<strong class="text-white">(c) Statutory rights:</strong> nothing in this Policy
+						limits any non-waivable statutory refund right available to you under applicable law
+						(e.g., the EU/UK 14-day distance-selling right, or any consumer-rights laws in your
+						jurisdiction).
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">3. How to request a refund</h2>
+				<p class="mt-3">
+					Email
+					<a href={mailtoHref('support', '[Ultiplay] Refund request')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.support}</a>
+					with your order number and a brief description of the reason. We will respond within
+					<strong class="text-white"> five (5) business days</strong>. Approved refunds are issued
+					to the original payment method via Stripe and typically appear within
+					<strong class="text-white"> 5–10 business days</strong>, depending on your bank or card
+					issuer.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">4. License revocation on refund</h2>
+				<p class="mt-3">
+					When a refund is issued, the corresponding Gold license key is deactivated, and continued
+					use of Gold-tier features after deactivation is a violation of the
+					<a href={LEGAL_ROUTES.eula} class="text-fuchsia-300 underline hover:text-fuchsia-200">EULA</a>.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">5. Resellers</h2>
+				<p class="mt-3">
+					Refunds for licenses purchased from a third-party reseller must be requested from that
+					reseller in accordance with their refund policy.
+				</p>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>

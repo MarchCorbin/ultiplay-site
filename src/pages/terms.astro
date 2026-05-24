@@ -2,125 +2,229 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-
-const lastUpdated = 'April 19, 2026';
+import {
+	LEGAL_EFFECTIVE_DATE,
+	LEGAL_ROUTES,
+	PUBLISHER,
+	mailtoHref,
+	EMAILS,
+} from '../config/legal';
 ---
 
-<Layout title="Terms of Service — Ultiplay" description="Terms governing use of the Ultiplay website.">
+<Layout
+	title="Terms of Service — Ultiplay"
+	description="Terms governing your use of the Ultiplay desktop application, the ultiplay.net website, and related services."
+>
 	<Nav />
 
 	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
 		<header>
 			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
 			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">Terms of Service</h1>
-			<p class="mt-3 text-sm text-slate-500">Last updated: {lastUpdated}</p>
+			<p class="mt-3 text-sm text-slate-500">
+				Effective: {LEGAL_EFFECTIVE_DATE} &nbsp;·&nbsp;
+				<a href={LEGAL_ROUTES.index} class="underline hover:text-slate-300">Back to legal index</a>
+			</p>
 		</header>
 
-		<div class="mt-12 space-y-8 text-slate-300">
+		<div class="mt-12 space-y-10 text-slate-300">
 			<section>
-				<h2 class="text-2xl font-bold text-white">1. Acceptance</h2>
-				<p class="mt-3">
-					By accessing or using this website ("the Site"), you agree to these Terms of Service.
-					If you do not agree, please do not use the Site. The Ultiplay desktop application is
-					governed by a separate End User License Agreement (EULA) included with the installer.
+				<p>
+					These Terms of Service (<strong class="text-white">"Terms"</strong>) govern your access
+					to and use of the <a href="/" class="text-fuchsia-300 underline hover:text-fuchsia-200">ultiplay.net</a>
+					website, the Ultiplay desktop application, and any related services we offer
+					(collectively, the <strong class="text-white">"Services"</strong>). By accessing the
+					Services you agree to these Terms and to the
+					<a href={LEGAL_ROUTES.eula} class="text-fuchsia-300 underline hover:text-fuchsia-200">EULA</a>,
+					<a href={LEGAL_ROUTES.privacy} class="text-fuchsia-300 underline hover:text-fuchsia-200">Privacy Policy</a>,
+					and
+					<a href={LEGAL_ROUTES.acceptableUse} class="text-fuchsia-300 underline hover:text-fuchsia-200">Acceptable Use Policy</a>,
+					each of which is incorporated by reference.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">2. About Ultiplay</h2>
+				<h2 class="text-2xl font-bold text-white">1. Eligibility</h2>
 				<p class="mt-3">
-					Ultiplay is a multi-video player application for Microsoft Windows. This Site provides
-					information about the product, a launch waitlist, and — once available — purchase links
-					processed by our payments partner, Lemon Squeezy.
+					You must be at least <strong class="text-white">13 years old</strong> (or the minimum age
+					required in your jurisdiction) to use the Services. If you are under the age of legal
+					majority where you live, you represent that a parent or legal guardian has reviewed and
+					agreed to these Terms on your behalf. Some Service features may have a higher age
+					requirement disclosed at the point of access.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">3. Permitted use</h2>
+				<h2 class="text-2xl font-bold text-white">2. Accounts</h2>
 				<p class="mt-3">
-					You may browse the Site for personal or commercial evaluation. You may not:
-				</p>
-				<ul class="mt-3 list-disc space-y-2 pl-6">
-					<li>scrape, crawl, or systematically harvest content beyond reasonable indexing;</li>
-					<li>attempt to disrupt, attack, or reverse-engineer the Site or its hosting infrastructure;</li>
-					<li>impersonate Ultiplay or use our branding or assets in a misleading way.</li>
-				</ul>
-			</section>
-
-			<section>
-				<h2 class="text-2xl font-bold text-white">4. Intellectual property</h2>
-				<p class="mt-3">
-					All Site content — including the Ultiplay name, logo, copy, artwork, the commercial
-					video, and product screenshots — is owned by us or our licensors and is protected by
-					copyright and trademark law. You may not reproduce or redistribute this material without
-					prior written permission, except for normal browsing and fair use commentary.
+					The Software does not require an account. If we offer optional accounts in the future,
+					you agree to provide accurate information and to keep your credentials confidential. You
+					are responsible for activity under your account.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">5. Waitlist signup</h2>
+				<h2 class="text-2xl font-bold text-white">3. Purchases</h2>
 				<p class="mt-3">
-					You may submit your email address to be notified about Ultiplay's launch. By doing so,
-					you consent to receive a small number of launch-related emails. You can unsubscribe or
-					request deletion at any time — see our
-					<a href="/privacy" class="text-fuchsia-300 underline hover:text-fuchsia-200">Privacy Policy</a>.
+					Gold-tier purchases are processed through our payment processor, Stripe, Inc., on a
+					one-time basis (lifetime license for the purchased major version) unless otherwise stated
+					at checkout. All sales are final except as set forth in the
+					<a href={LEGAL_ROUTES.refunds} class="text-fuchsia-300 underline hover:text-fuchsia-200">Refund Policy</a>.
+					Prices are listed in <strong class="text-white">U.S. dollars</strong> unless otherwise
+					indicated and are exclusive of any applicable taxes, which you are responsible for
+					paying. If a price is displayed incorrectly due to a typographical or technical error,
+					{PUBLISHER.legalName} reserves the right to cancel the order and refund any amount
+					charged.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">6. Purchases and licensing</h2>
+				<h2 class="text-2xl font-bold text-white">4. Modifications to the Services</h2>
 				<p class="mt-3">
-					When Ultiplay becomes purchasable, all transactions are processed by Lemon Squeezy, who
-					also issues your license key. Refunds, billing, and tax handling are governed by Lemon
-					Squeezy's policies as well as the Ultiplay EULA delivered with the application. Pricing
-					is subject to change; the price displayed at checkout is the price you pay.
+					We may add, remove, or modify Service features at any time without notice. We will not
+					retroactively remove material features that you paid for in your purchased major version,
+					except where required by law or for security reasons.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">7. Disclaimers</h2>
+				<h2 class="text-2xl font-bold text-white">5. Suspension and termination</h2>
 				<p class="mt-3">
-					The Site is provided "as is" without warranties of any kind, express or implied,
-					including merchantability, fitness for a particular purpose, and non-infringement. We
-					make no guarantees about uptime, accuracy, or availability of the Site or any specific
-					feature of the application.
+					We may suspend or terminate your access to all or part of the Services, including
+					revoking a Gold license, if we reasonably believe you have violated these Terms, the
+					<a href={LEGAL_ROUTES.eula} class="text-fuchsia-300 underline hover:text-fuchsia-200">EULA</a>,
+					or the
+					<a href={LEGAL_ROUTES.acceptableUse} class="text-fuchsia-300 underline hover:text-fuchsia-200">Acceptable Use Policy</a>,
+					or if your use poses a risk to us, other users, or third parties. You may stop using the
+					Services at any time.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">8. Limitation of liability</h2>
+				<h2 class="text-2xl font-bold text-white">6. Disclaimer of warranties</h2>
+				<p class="mt-3 font-semibold uppercase tracking-wide text-slate-200">
+					The Services are provided "as is" and "as available," without warranty of any kind,
+					express, implied, or statutory, including but not limited to implied warranties of
+					merchantability, fitness for a particular purpose, title, and non-infringement.
+					{PUBLISHER.legalName.toUpperCase()} does not warrant that the Services will be
+					uninterrupted, error-free, secure, or compatible with any particular hardware, operating
+					system, or third-party service. The entire risk as to quality and performance of the
+					Services is with you.
+				</p>
 				<p class="mt-3">
-					To the fullest extent permitted by law, Ultiplay shall not be liable for any indirect,
-					incidental, special, consequential, or punitive damages arising from your use of the
-					Site. Our total liability for any claim relating to the Site is limited to the amount
-					you paid (if any) for access to the Site.
+					Some jurisdictions do not allow the exclusion of certain warranties; in such
+					jurisdictions the foregoing exclusions apply only to the extent permitted by law.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">9. Third-party content</h2>
+				<h2 class="text-2xl font-bold text-white">7. Limitation of liability</h2>
+				<p class="mt-3 font-semibold uppercase tracking-wide text-slate-200">
+					To the maximum extent permitted by applicable law, in no event will
+					{` `}{PUBLISHER.legalName.toUpperCase()}, its licensors, or its suppliers be liable for
+					any indirect, incidental, special, exemplary, punitive, or consequential damages, or for
+					any loss of profits, revenue, data, use, goodwill, or other intangible losses, arising
+					out of or related to these Terms or the Services, even if advised of the possibility of
+					such damages.
+				</p>
+				<p class="mt-3 font-semibold uppercase tracking-wide text-slate-200">
+					{PUBLISHER.legalName.toUpperCase()}'s total cumulative liability arising out of or
+					related to these Terms will not exceed the greater of (a) the amount you paid Ultiplay
+					for your license in the twelve (12) months preceding the event giving rise to the claim,
+					or (b) <span class="whitespace-nowrap">twenty U.S. dollars (US $20.00)</span>.
+				</p>
 				<p class="mt-3">
-					The Site embeds third-party content (e.g. YouTube videos) and links to third-party
-					services (e.g. Lemon Squeezy). We are not responsible for the content, policies, or
-					practices of those third parties.
+					These limitations apply even if any limited remedy fails of its essential purpose. Some
+					jurisdictions do not allow the limitation or exclusion of liability for incidental or
+					consequential damages; in such jurisdictions the foregoing limitations apply only to the
+					extent permitted by law.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">10. Changes</h2>
+				<h2 class="text-2xl font-bold text-white">8. Beta features</h2>
 				<p class="mt-3">
-					We may update these Terms from time to time. The "Last updated" date will reflect the
-					change. Continued use of the Site after a change constitutes acceptance of the revised
-					Terms.
+					We may offer beta, preview, or "early access" features. Beta features are provided
+					<strong class="text-white"> AS IS</strong>, may be unstable, may be modified or
+					discontinued at any time, and are excluded from any service-level commitments.
 				</p>
 			</section>
 
 			<section>
-				<h2 class="text-2xl font-bold text-white">11. Contact</h2>
+				<h2 class="text-2xl font-bold text-white">9. Force majeure</h2>
 				<p class="mt-3">
-					Questions? Email
-					<a href="mailto:support@ultiplay.net" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.net</a>.
+					We are not liable for any failure or delay in performance caused by events beyond our
+					reasonable control, including natural disasters, war, terrorism, civil unrest, government
+					action, internet or hosting-provider outages, payment-processor outages, or pandemics.
 				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">10. No waiver; severability</h2>
+				<p class="mt-3">
+					Our failure to enforce any provision is not a waiver. If any provision is held
+					unenforceable, the remaining provisions remain in effect and the unenforceable provision
+					will be enforced to the maximum extent permitted by law.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">11. Assignment</h2>
+				<p class="mt-3">
+					You may not assign these Terms without our prior written consent. We may assign them to
+					an affiliate or in connection with a merger, acquisition, financing, or sale of assets of
+					{` `}{PUBLISHER.legalName}.
+				</p>
+			</section>
+
+			<section id="governing-law">
+				<h2 class="text-2xl font-bold text-white">12. Governing law &amp; dispute resolution</h2>
+				<p class="mt-3">
+					These Terms and all matters arising out of or relating to the Services are governed by,
+					and will be construed in accordance with, the laws of the
+					<strong class="text-white"> State of Colorado</strong> and the federal laws of the United
+					States, without regard to conflict-of-law principles. The United Nations Convention on
+					Contracts for the International Sale of Goods does not apply.
+				</p>
+				<p class="mt-3">
+					Any dispute, claim, or controversy arising out of or relating to these Terms or the
+					Services will be resolved
+					<strong class="text-white"> exclusively in the state or federal courts located in
+					Arapahoe County, Colorado, or the U.S. District Court for the District of Colorado</strong>,
+					and each party irrevocably submits to the exclusive jurisdiction of those courts. Each
+					party waives any objection to venue in those courts based on inconvenient forum.
+				</p>
+				<p class="mt-3 font-semibold uppercase tracking-wide text-slate-200">
+					To the extent permitted by law, each party waives any right to a trial by jury in any
+					action or proceeding arising out of or relating to these Terms.
+				</p>
+				<p class="mt-3">
+					Nothing in this Section limits a party's right to seek injunctive or other equitable
+					relief in any court of competent jurisdiction to protect intellectual-property or
+					confidentiality rights.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">13. Headings</h2>
+				<p class="mt-3">
+					Section headings are for reference only and do not affect interpretation.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">14. Contact</h2>
+				<p class="mt-3">
+					Questions about these Terms? Email
+					<a href={mailtoHref('support')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.support}</a>
+					or write to:
+				</p>
+				<address class="mt-3 not-italic text-slate-300">
+					{PUBLISHER.legalName}<br />
+					{PUBLISHER.addressLine1}<br />
+					{PUBLISHER.city}, {PUBLISHER.region} {PUBLISHER.postal}<br />
+					{PUBLISHER.country}
+				</address>
 			</section>
 		</div>
 	</main>

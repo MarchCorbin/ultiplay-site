@@ -1,0 +1,327 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import {
+	LEGAL_EFFECTIVE_DATE,
+	LEGAL_ROUTES,
+	mailtoHref,
+	EMAILS,
+} from '../config/legal';
+
+type LicensedComponent = {
+	id: string;
+	heading: string;
+	use: string;
+	bundled?: string;
+	license: string;
+	upstream?: { label: string; href: string }[];
+	licenseText?: { label: string; href: string };
+	notes?: string[];
+};
+
+const components: LicensedComponent[] = [
+	{
+		id: 'libvlc',
+		heading: '6.1 LibVLC (the VLC media framework)',
+		use: 'Audio and video playback engine.',
+		bundled: 'libvlc.dll, libvlccore.dll, and the contents of vlc/plugins/ shipped inside the executable\'s onefile bundle.',
+		license: 'GNU Lesser General Public License v2.1 or later (LGPLv2.1+).',
+		upstream: [
+			{ label: 'videolan.org/vlc', href: 'https://www.videolan.org/vlc/' },
+			{ label: 'github.com/videolan/vlc', href: 'https://github.com/videolan/vlc' },
+		],
+		licenseText: { label: 'LGPL-2.1 license text', href: 'https://www.gnu.org/licenses/lgpl-2.1.html' },
+		notes: [
+			'LGPL compliance note: LibVLC is dynamically loaded by python-vlc. Users have the right to obtain the LibVLC source code corresponding to the bundled binaries and to relink the application against modified LibVLC binaries. To request LGPL source materials or instructions for relinking, email legal@ultiplay.net.',
+		],
+	},
+	{
+		id: 'ffmpeg',
+		heading: '6.2 FFmpeg (libavcodec, libavformat, libavutil, libswscale, libswresample, plus libx264 and other codecs)',
+		use: 'Screen-region recording (gdigrab capture), H.264 video encoding (libx264), WASAPI audio merging, MKV/MP4 muxing, and final render.',
+		bundled: 'Unmodified ffmpeg.exe and ffprobe.exe binaries from the upstream Windows build distributed via Chocolatey.',
+		license:
+			'FFmpeg core is licensed under the GNU Lesser General Public License v2.1 or later (LGPLv2.1+); however, the bundled build is a GPL build because it includes GPL-licensed components (notably libx264). The combined ffmpeg.exe is therefore distributed under the GNU General Public License v2 or later (GPLv2+).',
+		upstream: [
+			{ label: 'ffmpeg.org/legal.html', href: 'https://ffmpeg.org/legal.html' },
+		],
+		licenseText: { label: 'GPL-2.0 license text', href: 'https://www.gnu.org/licenses/gpl-2.0.html' },
+		notes: [
+			'GPL compliance note: FFmpeg is invoked exclusively as a separate process via subprocess; it is not statically or dynamically linked into the Ultiplay executable. Per the FFmpeg project\'s own guidance, this constitutes "mere aggregation" of independent works on the same distribution medium and does not extend GPL terms to the rest of the Software. The corresponding source code for the bundled FFmpeg build is available from https://ffmpeg.org/download.html and on written request to legal@ultiplay.net, which constitutes our written offer of source under GPLv2 § 3(b).',
+		],
+	},
+	{
+		id: 'python',
+		heading: '6.3 Python interpreter & standard library',
+		use: 'The runtime interpreter used by the bundled executable.',
+		bundled: 'python3xx.dll and the Python standard library packaged into the onefile bundle by PyInstaller.',
+		license: 'Python Software Foundation License Version 2 (PSF License).',
+		upstream: [{ label: 'python.org', href: 'https://www.python.org/' }],
+		licenseText: { label: 'PSF license text', href: 'https://docs.python.org/3/license.html' },
+	},
+	{
+		id: 'yt-dlp',
+		heading: '6.4 yt-dlp',
+		use: 'Optional URL-based media fetching (YouTube and similar sites) when the user pastes a URL.',
+		license: 'The Unlicense (public-domain dedication).',
+		upstream: [{ label: 'github.com/yt-dlp/yt-dlp', href: 'https://github.com/yt-dlp/yt-dlp' }],
+		licenseText: {
+			label: 'yt-dlp LICENSE',
+			href: 'https://github.com/yt-dlp/yt-dlp/blob/master/LICENSE',
+		},
+	},
+	{
+		id: 'pillow',
+		heading: '6.5 Pillow (PIL fork)',
+		use: 'Thumbnail generation, screenshot composition, on-screen overlay rendering, icon manipulation.',
+		license: 'Historical Permission Notice and Disclaimer (HPND), an MIT-style permissive license.',
+		upstream: [{ label: 'github.com/python-pillow/Pillow', href: 'https://github.com/python-pillow/Pillow' }],
+		licenseText: {
+			label: 'Pillow LICENSE',
+			href: 'https://github.com/python-pillow/Pillow/blob/main/LICENSE',
+		},
+	},
+	{
+		id: 'python-vlc',
+		heading: '6.6 python-vlc',
+		use: 'Python bindings to LibVLC; the primary playback control surface.',
+		license: 'GNU Lesser General Public License v2.1 or later (LGPLv2.1+).',
+		upstream: [{ label: 'github.com/oaubert/python-vlc', href: 'https://github.com/oaubert/python-vlc' }],
+	},
+	{
+		id: 'pywin32',
+		heading: '6.7 pywin32 (win32gui, win32con, win32api, win32com, pythoncom, pywintypes)',
+		use: 'Windows window-management, system-tray icon, jump-list integration, screenshot capture (BitBlt), shell-link / shortcut creation.',
+		license: 'Python Software Foundation License (PSF) v2.',
+		upstream: [{ label: 'github.com/mhammond/pywin32', href: 'https://github.com/mhammond/pywin32' }],
+	},
+	{
+		id: 'tkinterdnd2',
+		heading: '6.8 tkinterdnd2',
+		use: 'Native drag-and-drop file input on the main window.',
+		license: 'MIT License.',
+		upstream: [{ label: 'github.com/pmgagne/tkinterdnd2', href: 'https://github.com/pmgagne/tkinterdnd2' }],
+	},
+	{
+		id: 'pyaudiowpatch',
+		heading: '6.9 PyAudioWPatch',
+		use: 'WASAPI loopback audio capture during recording.',
+		license: 'MIT License.',
+		upstream: [{ label: 'github.com/s0d3s/PyAudioWPatch', href: 'https://github.com/s0d3s/PyAudioWPatch' }],
+	},
+	{
+		id: 'screeninfo',
+		heading: '6.10 screeninfo',
+		use: 'Multi-monitor enumeration for layout positioning.',
+		license: 'MIT License.',
+		upstream: [{ label: 'github.com/rr-/screeninfo', href: 'https://github.com/rr-/screeninfo' }],
+	},
+	{
+		id: 'certifi',
+		heading: '6.11 certifi',
+		use: 'Trusted CA certificate bundle used by yt-dlp and urllib for HTTPS validation in the frozen build.',
+		license: 'Mozilla Public License 2.0 (MPL-2.0).',
+		upstream: [{ label: 'github.com/certifi/python-certifi', href: 'https://github.com/certifi/python-certifi' }],
+		licenseText: { label: 'MPL-2.0 license text', href: 'https://www.mozilla.org/en-US/MPL/2.0/' },
+		notes: [
+			'MPL note: cacert.pem is bundled verbatim and is not modified by Ultiplay; no source-disclosure obligations beyond providing this notice are triggered.',
+		],
+	},
+	{
+		id: 'boto3',
+		heading: '6.12 boto3, botocore, s3transfer',
+		use: "Uploading support-bundle archives to Ultiplay's S3 bucket and routing them through SES via Lambda.",
+		license: 'Apache License 2.0.',
+		upstream: [
+			{ label: 'github.com/boto/boto3', href: 'https://github.com/boto/boto3' },
+			{ label: 'github.com/boto/botocore', href: 'https://github.com/boto/botocore' },
+			{ label: 'github.com/boto/s3transfer', href: 'https://github.com/boto/s3transfer' },
+		],
+		licenseText: { label: 'Apache-2.0 license text', href: 'https://www.apache.org/licenses/LICENSE-2.0' },
+	},
+	{
+		id: 'tcl-tk',
+		heading: '6.13 Tcl / Tk',
+		use: 'The underlying GUI toolkit used by Python\'s tkinter module; the entire app UI is rendered through Tk.',
+		bundled: '_tkinter.pyd, tcl86t.dll, tk86t.dll, and the Tcl/Tk standard library trees (_tcl_data/, _tk_data/).',
+		license: 'BSD-style ("Tcl/Tk License").',
+		upstream: [{ label: 'tcl.tk license', href: 'https://www.tcl.tk/software/tcltk/license.html' }],
+	},
+	{
+		id: 'pyinstaller',
+		heading: '6.14 PyInstaller (build tool only — not bundled into the user-facing app)',
+		use: 'Packaging the Python source into the distributed ultiplay.exe.',
+		license:
+			'GPLv2 with the PyInstaller "bootloader exception" that explicitly permits distributing applications produced with PyInstaller under any license.',
+		upstream: [{ label: 'github.com/pyinstaller/pyinstaller', href: 'https://github.com/pyinstaller/pyinstaller' }],
+		licenseText: {
+			label: 'PyInstaller COPYING.txt',
+			href: 'https://github.com/pyinstaller/pyinstaller/blob/develop/COPYING.txt',
+		},
+	},
+];
+---
+
+<Layout
+	title="Third-Party & Open-Source Licenses — Ultiplay"
+	description="The open-source components bundled with the Ultiplay desktop application (LibVLC, FFmpeg, Python, yt-dlp, and more) and the written offer of source code required by their licenses."
+>
+	<Nav />
+
+	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+		<header>
+			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
+			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+				Third-Party &amp; Open-Source Licenses
+			</h1>
+			<p class="mt-3 text-sm text-slate-500">
+				Effective: {LEGAL_EFFECTIVE_DATE} &nbsp;·&nbsp;
+				<a href={LEGAL_ROUTES.index} class="underline hover:text-slate-300">Back to legal index</a>
+			</p>
+		</header>
+
+		<div class="mt-12 space-y-10 text-slate-300">
+			<section>
+				<p>
+					The Ultiplay desktop application incorporates the following third-party components. Their
+					use is governed by their respective licenses,
+					<strong class="text-white"> not</strong> the
+					<a href={LEGAL_ROUTES.eula} class="text-fuchsia-300 underline hover:text-fuchsia-200">Ultiplay EULA</a>.
+					Where required by a component's license, source code or license text is available at the
+					linked URL or upon written request to
+					<a href={mailtoHref('legal')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.legal}</a>,
+					at our cost of fulfillment.
+				</p>
+			</section>
+
+			<section class="rounded-2xl border border-amber-300/30 bg-amber-300/5 p-6 backdrop-blur">
+				<h2 class="text-lg font-semibold text-amber-100">Written offer of source code</h2>
+				<p class="mt-3 text-amber-100/90">
+					For the <strong>LGPLv2.1+</strong> components bundled with Ultiplay (LibVLC, python-vlc),
+					users have the right to obtain the corresponding source code and to relink the
+					application against modified versions of those libraries.
+				</p>
+				<p class="mt-3 text-amber-100/90">
+					For the <strong>GPLv2+</strong> bundled build of FFmpeg (which includes libx264), the
+					corresponding source code is available from
+					<a href="https://ffmpeg.org/download.html" rel="noopener" class="underline hover:text-amber-50">
+						ffmpeg.org/download.html
+					</a>
+					and on written request to
+					<a href={mailtoHref('legal')} class="underline hover:text-amber-50">{EMAILS.legal}</a>.
+					This statement constitutes our written offer of source under GPLv2 § 3(b).
+				</p>
+			</section>
+
+			<section>
+				<p class="text-sm text-slate-400">
+					<strong class="text-slate-200">Maintainers:</strong> keep this list synchronized with
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">build_exe.py</code>. The current
+					list was generated from the bundling steps in that script and from the runtime import
+					surface of <code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">ultiplay.py</code>,
+					and may need refresh after any dependency upgrade. The PyInstaller analysis file
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">build/ultiplay/Analysis-00.toc</code>
+					contains a machine-readable enumeration of every module included in the build.
+				</p>
+			</section>
+
+			{components.map((c) => (
+				<section id={c.id}>
+					<h2 class="text-xl font-bold text-white">{c.heading}</h2>
+					<dl class="mt-4 grid gap-3 text-sm sm:grid-cols-[auto_1fr] sm:gap-x-6">
+						<dt class="font-semibold uppercase tracking-widest text-slate-400">Use</dt>
+						<dd>{c.use}</dd>
+
+						{c.bundled && (
+							<>
+								<dt class="font-semibold uppercase tracking-widest text-slate-400">Bundled</dt>
+								<dd class="font-mono text-xs text-slate-300">{c.bundled}</dd>
+							</>
+						)}
+
+						<dt class="font-semibold uppercase tracking-widest text-slate-400">License</dt>
+						<dd>{c.license}</dd>
+
+						{c.upstream && c.upstream.length > 0 && (
+							<>
+								<dt class="font-semibold uppercase tracking-widest text-slate-400">Upstream</dt>
+								<dd>
+									{c.upstream.map((link, idx) => (
+										<>
+											{idx > 0 && <span class="text-slate-500"> · </span>}
+											<a
+												href={link.href}
+												rel="noopener"
+												class="text-fuchsia-300 underline hover:text-fuchsia-200"
+											>
+												{link.label}
+											</a>
+										</>
+									))}
+								</dd>
+							</>
+						)}
+
+						{c.licenseText && (
+							<>
+								<dt class="font-semibold uppercase tracking-widest text-slate-400">License text</dt>
+								<dd>
+									<a
+										href={c.licenseText.href}
+										rel="noopener"
+										class="text-fuchsia-300 underline hover:text-fuchsia-200"
+									>
+										{c.licenseText.label}
+									</a>
+								</dd>
+							</>
+						)}
+					</dl>
+					{c.notes && c.notes.length > 0 && (
+						<div class="mt-4 space-y-3 text-sm text-slate-400">
+							{c.notes.map((note) => (
+								<p>{note}</p>
+							))}
+						</div>
+					)}
+				</section>
+			))}
+
+			<section id="transitive">
+				<h2 class="text-xl font-bold text-white">6.15 Other transitive dependencies</h2>
+				<p class="mt-3">
+					The bundled application also includes transitive dependencies pulled in by the components
+					above (for example, <code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">six</code>,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">idna</code>,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">urllib3</code>,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">python-dateutil</code>,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">jmespath</code>,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">pycparser</code>, and other small
+					Python utilities). Each is governed by its own permissive license (MIT, BSD, Apache-2.0,
+					or PSF). A complete machine-readable enumeration is produced by PyInstaller during every
+					build at
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">build/ultiplay/Analysis-00.toc</code>
+					and is available on written request to
+					<a href={mailtoHref('legal')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.legal}</a>.
+				</p>
+			</section>
+
+			<section id="third-party-trademarks">
+				<h2 class="text-xl font-bold text-white">6.16 Trademarks of third parties</h2>
+				<p class="mt-3">
+					"VLC" and the "Traffic Cone" logo are trademarks of the VideoLAN non-profit organisation.
+					"FFmpeg" is a trademark of Fabrice Bellard, originator of the FFmpeg project. "AWS,"
+					"Amazon S3," "AWS Lambda," "Amazon DynamoDB," and "Amazon SES" are trademarks of
+					Amazon.com, Inc. "Stripe" is a trademark of Stripe, Inc. "Google" is a trademark of
+					Google LLC. "Zoho" is a trademark of Zoho Corporation Pvt. Ltd. "Windows" is a trademark
+					of Microsoft Corporation. Use of these names in this document is purely descriptive
+					(nominative fair use) and does not imply endorsement of Ultiplay by any of these third
+					parties.
+				</p>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>

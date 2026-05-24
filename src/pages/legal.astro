@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import {
+	LEGAL_EFFECTIVE_DATE,
+	LEGAL_ROUTES,
+	PUBLISHER,
+	mailtoHref,
+	EMAILS,
+} from '../config/legal';
+
+const docs = [
+	{
+		title: 'End User License Agreement (EULA)',
+		href: LEGAL_ROUTES.eula,
+		summary:
+			'The license terms you accept when you install or use the Ultiplay desktop application — including the Free / Gold tier definitions, restrictions, warranty disclaimer, and US $20 / 12-month liability cap.',
+	},
+	{
+		title: 'Privacy Policy',
+		href: LEGAL_ROUTES.privacy,
+		summary:
+			'What information Ultiplay LLC collects, how we use it, and the third-party sub-processors involved. Includes the California (CCPA/CPRA) and EU/UK (GDPR) notices.',
+	},
+	{
+		title: 'Terms of Service',
+		href: LEGAL_ROUTES.terms,
+		summary:
+			'The rules governing your use of the ultiplay.net website and the desktop app — eligibility, purchases, modifications, suspension, and governing law.',
+	},
+	{
+		title: 'Acceptable Use Policy',
+		href: LEGAL_ROUTES.acceptableUse,
+		summary:
+			'What you may and may not do while using the Services, including content responsibility, prohibited conduct, and how to report abuse.',
+	},
+	{
+		title: 'DMCA & Copyright Policy',
+		href: LEGAL_ROUTES.dmca,
+		summary:
+			'How to submit a DMCA takedown notice or counter-notification, and the current status of our Designated Copyright Agent.',
+	},
+	{
+		title: 'Third-Party & Open-Source Licenses',
+		href: LEGAL_ROUTES.licenses,
+		summary:
+			'The open-source components bundled with Ultiplay (LibVLC, FFmpeg, Python, yt-dlp, and more) and the written offer of source code required by their licenses.',
+	},
+	{
+		title: 'Cookie Policy',
+		href: LEGAL_ROUTES.cookies,
+		summary:
+			'The cookies and similar technologies used on ultiplay.net, how to manage them, and our Global Privacy Control (GPC) commitment.',
+	},
+	{
+		title: 'Refund Policy',
+		href: LEGAL_ROUTES.refunds,
+		summary:
+			'The 14-day satisfaction window for direct Gold purchases, defect refunds, and how to request a refund.',
+	},
+	{
+		title: 'Trademark Notice',
+		href: LEGAL_ROUTES.trademark,
+		summary:
+			'The Ultiplay™ name, logo, and slogan, and the rules for referring to them in third-party materials.',
+	},
+];
+
+const documentHistory = [
+	{
+		version: '1.0',
+		effective: LEGAL_EFFECTIVE_DATE,
+		summary:
+			'Initial publication of consolidated legal documents (EULA, Privacy, ToS, AUP, DMCA, Third-Party Licenses, Cookies, Refund, Trademarks, Governing Law). Publisher: Ultiplay LLC, a Colorado LLC formed 2026-04-26.',
+	},
+];
+---
+
+<Layout
+	title="Legal — Ultiplay"
+	description="Master index of Ultiplay's legal documents — EULA, Privacy Policy, Terms of Service, Acceptable Use, DMCA, Open-Source Licenses, Cookies, Refund Policy, and Trademark Notice."
+>
+	<Nav />
+
+	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+		<header>
+			<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Legal</p>
+			<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+				Legal documents
+			</h1>
+			<p class="mt-3 text-sm text-slate-500">Effective: {LEGAL_EFFECTIVE_DATE}</p>
+		</header>
+
+		<div class="mt-12 space-y-10 text-slate-300">
+			<section>
+				<p>
+					This page is the master index for every legal document governing the Ultiplay desktop
+					application and the <a href="/" class="text-fuchsia-300 underline hover:text-fuchsia-200">ultiplay.net</a> website.
+					Each document below is the published, canonical version. The in-app End User License
+					Agreement that ships inside the installer mirrors the EULA linked below.
+				</p>
+				<p class="mt-4">
+					If you have a privacy or data-rights request, write to
+					<a href={mailtoHref('privacy')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.privacy}</a>.
+					For all other legal questions, including written requests for open-source
+					source code, write to
+					<a href={mailtoHref('legal')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.legal}</a>.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Publisher</h2>
+				<div class="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur">
+					<p class="font-semibold text-white">{PUBLISHER.legalName}</p>
+					<p class="mt-1 text-sm text-slate-400">{PUBLISHER.formation}</p>
+					<address class="mt-3 not-italic text-sm text-slate-300">
+						{PUBLISHER.addressLine1}<br />
+						{PUBLISHER.city}, {PUBLISHER.region} {PUBLISHER.postal}<br />
+						{PUBLISHER.country}<br />
+						<span class="text-slate-400">Phone (business):</span> {PUBLISHER.phone}
+					</address>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Document set</h2>
+				<ul class="mt-6 space-y-4">
+					{docs.map((doc) => (
+						<li class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-fuchsia-400/30 hover:bg-white/[0.05]">
+							<a href={doc.href} class="block">
+								<h3 class="text-lg font-semibold text-white">{doc.title}</h3>
+								<p class="mt-2 text-sm text-slate-400">{doc.summary}</p>
+								<p class="mt-3 text-xs font-medium uppercase tracking-widest text-fuchsia-300">
+									Read {doc.href} →
+								</p>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section id="governing-law">
+				<h2 class="text-2xl font-bold text-white">Governing law &amp; dispute resolution</h2>
+				<p class="mt-3">
+					This Agreement and all matters arising out of or relating to the Services are governed
+					by, and will be construed in accordance with, the laws of the
+					<strong class="text-white">State of Colorado</strong> and the federal laws of the United
+					States, without regard to conflict-of-law principles. The United Nations Convention on
+					Contracts for the International Sale of Goods does not apply.
+				</p>
+				<p class="mt-3">
+					Any dispute, claim, or controversy arising out of or relating to this Agreement or the
+					Services will be resolved <strong class="text-white">exclusively in the state or federal
+					courts located in Arapahoe County, Colorado, or the U.S. District Court for the District
+					of Colorado</strong>, and each party irrevocably submits to the exclusive jurisdiction of
+					those courts. Each party waives any objection to venue in those courts based on
+					inconvenient forum.
+				</p>
+				<p class="mt-3">
+					To the extent permitted by law, each party waives any right to a trial by jury in any
+					action or proceeding arising out of or relating to this Agreement.
+				</p>
+				<p class="mt-3">
+					Nothing in this Section limits a party's right to seek injunctive or other equitable
+					relief in any court of competent jurisdiction to protect intellectual-property or
+					confidentiality rights.
+				</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Document history</h2>
+				<div class="mt-4 overflow-x-auto">
+					<table class="w-full min-w-[36rem] border-collapse text-sm">
+						<thead>
+							<tr class="border-b border-white/10 text-left text-xs font-semibold uppercase tracking-widest text-slate-400">
+								<th class="py-3 pr-4">Version</th>
+								<th class="py-3 pr-4">Effective date</th>
+								<th class="py-3">Summary of changes</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-white/5">
+							{documentHistory.map((entry) => (
+								<tr>
+									<td class="py-3 pr-4 align-top text-white">{entry.version}</td>
+									<td class="py-3 pr-4 align-top text-slate-300">{entry.effective}</td>
+									<td class="py-3 align-top text-slate-300">{entry.summary}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-white">Contact</h2>
+				<p class="mt-3">
+					Postal notices: {PUBLISHER.legalName}, {PUBLISHER.addressLine1}, {PUBLISHER.city},
+					{` `}{PUBLISHER.region} {PUBLISHER.postal}, {PUBLISHER.country}.
+				</p>
+				<p class="mt-3">
+					See the <a href={LEGAL_ROUTES.privacy + '#contact'} class="text-fuchsia-300 underline hover:text-fuchsia-200">Privacy Policy contact section</a>
+					for a full list of specialized email addresses, or visit our
+					<a href="/contact" class="text-fuchsia-300 underline hover:text-fuchsia-200">Contact</a> page.
+				</p>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>

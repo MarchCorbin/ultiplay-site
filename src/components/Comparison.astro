@@ -174,11 +174,24 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 						{goldLabel}
 						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
 					</a>
-					<p class="mt-3 text-center text-[11px] text-slate-400">
-						{SITE.goldLive
-							? 'Secure checkout via Stripe · 14-day refund policy · Lifetime updates.'
-							: "Get notified the moment Ultiplay Gold is live · Lock in founder's pricing."}
-					</p>
+					{SITE.goldLive ? (
+						<div class="mt-3 space-y-1.5 text-center text-[11px] text-slate-400">
+							<p>
+								By proceeding, you agree to the
+								<a href="/eula" class="underline hover:text-slate-200">EULA</a>,
+								<a href="/terms" class="underline hover:text-slate-200">Terms of Service</a>,
+								and
+								<a href="/refunds" class="underline hover:text-slate-200">Refund Policy</a>.
+							</p>
+							<p>
+								Sold by Ultiplay LLC · Secure checkout via Stripe (USD) · 14-day refund window.
+							</p>
+						</div>
+					) : (
+						<p class="mt-3 text-center text-[11px] text-slate-400">
+							Get notified the moment Ultiplay Gold is live · Lock in founder's pricing.
+						</p>
+					)}
 				</div>
 			</div>
 		</div>

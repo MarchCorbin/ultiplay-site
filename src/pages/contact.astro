@@ -2,11 +2,34 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { mailtoHref, EMAILS } from '../config/legal';
 
-const supportEmail = 'support@ultiplay.net';
+const supportEmail = EMAILS.support;
+
+// Topic -> email-key mapping. Used to route a contact-form submission to the
+// right specialized address. The mailtoHref() helper currently aliases every
+// specialized address back to support@ until the per-address mailboxes are
+// live; flip ALIAS_ALL_TO_SUPPORT in src/config/legal.ts to disable the alias.
+const topics = [
+	{ label: 'General question', emailKey: 'support' as const },
+	{ label: 'Support / bug report', emailKey: 'support' as const },
+	{ label: 'License or refund', emailKey: 'support' as const },
+	{ label: 'Privacy / data-rights request', emailKey: 'privacy' as const },
+	{ label: 'Abuse / AUP violation', emailKey: 'abuse' as const },
+	{ label: 'Copyright (DMCA)', emailKey: 'dmca' as const },
+	{ label: 'Press / partnership', emailKey: 'press' as const },
+];
+
+const topicMap = JSON.stringify(
+	topics.reduce<Record<string, string>>((acc, t) => {
+		const href = mailtoHref(t.emailKey, `[Ultiplay] ${t.label}`);
+		acc[t.label] = href.replace(/^mailto:/, '').split('?')[0];
+		return acc;
+	}, {}),
+);
 ---
 
-<Layout title="Contact — Ultiplay" description="Get in touch with the Ultiplay team for support, partnerships, or press inquiries.">
+<Layout title="Contact — Ultiplay" description="Get in touch with the Ultiplay team for support, partnerships, press, or privacy and copyright inquiries.">
 	<Nav />
 
 	<main class="mx-auto max-w-3xl px-6 py-20 md:py-28">
@@ -16,31 +39,35 @@ const supportEmail = 'support@ultiplay.net';
 				Get in touch.
 			</h1>
 			<p class="mt-4 text-lg text-slate-300">
-				Questions, bug reports, partnership ideas, or press? We read every message.
+				Questions, bug reports, partnership ideas, press, or privacy requests? We read every message.
 			</p>
 		</header>
 
 		<div class="mt-14 grid gap-8 md:grid-cols-3">
 			<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur">
 				<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Support</p>
-				<h2 class="mt-2 text-lg font-bold text-white">App help & licensing</h2>
+				<h2 class="mt-2 text-lg font-bold text-white">App help &amp; licensing</h2>
 				<p class="mt-2 text-sm text-slate-400">Best for installer issues, license keys, and refund requests.</p>
-				<a href={`mailto:${supportEmail}`} class="mt-4 inline-block text-sm font-medium text-fuchsia-300 underline hover:text-fuchsia-200">
+				<a href={mailtoHref('support')} class="mt-4 inline-block text-sm font-medium text-fuchsia-300 underline hover:text-fuchsia-200">
 					{supportEmail}
 				</a>
 			</div>
 			<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur">
 				<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Press</p>
-				<h2 class="mt-2 text-lg font-bold text-white">Reviews & coverage</h2>
+				<h2 class="mt-2 text-lg font-bold text-white">Reviews &amp; coverage</h2>
 				<p class="mt-2 text-sm text-slate-400">Looking for screenshots, the commercial, or a press kit? Drop a line.</p>
-				<a href={`mailto:${supportEmail}?subject=Press%20inquiry`} class="mt-4 inline-block text-sm font-medium text-fuchsia-300 underline hover:text-fuchsia-200">
-					Email us
+				<a href={mailtoHref('press')} class="mt-4 inline-block text-sm font-medium text-fuchsia-300 underline hover:text-fuchsia-200">
+					{EMAILS.press}
 				</a>
 			</div>
 			<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur">
-				<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Response time</p>
-				<h2 class="mt-2 text-lg font-bold text-white">Within 2 business days</h2>
-				<p class="mt-2 text-sm text-slate-400">We're a small team — thanks for your patience.</p>
+				<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Specialized</p>
+				<h2 class="mt-2 text-lg font-bold text-white">Privacy, abuse &amp; DMCA</h2>
+				<p class="mt-2 text-sm text-slate-400">
+					Privacy: <a href={mailtoHref('privacy')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.privacy}</a><br />
+					Abuse: <a href={mailtoHref('abuse')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.abuse}</a><br />
+					DMCA: <a href={mailtoHref('dmca')} class="text-fuchsia-300 underline hover:text-fuchsia-200">{EMAILS.dmca}</a>
+				</p>
 			</div>
 		</div>
 
@@ -50,7 +77,8 @@ const supportEmail = 'support@ultiplay.net';
 					<div>
 						<h2 class="text-2xl font-bold text-white">Compose a message</h2>
 						<p class="mt-2 text-sm text-slate-400">
-							Fill in the fields and hit send — your email app will open with your message ready to go to <span class="text-fuchsia-300">{supportEmail}</span>.
+							Fill in the fields and hit send — your email app will open with your message
+							pre-addressed to the right inbox based on the topic you pick.
 						</p>
 					</div>
 				</div>
@@ -58,6 +86,7 @@ const supportEmail = 'support@ultiplay.net';
 				<form
 					id="contact-form"
 					data-support-email={supportEmail}
+					data-topic-map={topicMap}
 					class="mt-8 grid gap-5"
 				>
 					<div class="grid gap-5 sm:grid-cols-2">
@@ -91,10 +120,9 @@ const supportEmail = 'support@ultiplay.net';
 							name="topic"
 							class="mt-2 w-full rounded-lg border border-white/15 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-fuchsia-400/60 focus:ring-2 focus:ring-fuchsia-400/30"
 						>
-							<option value="General question">General question</option>
-							<option value="Support / bug report">Support / bug report</option>
-							<option value="License or refund">License or refund</option>
-							<option value="Press / partnership">Press / partnership</option>
+							{topics.map((t) => (
+								<option value={t.label}>{t.label}</option>
+							))}
 						</select>
 					</div>
 					<div>
@@ -128,7 +156,7 @@ const supportEmail = 'support@ultiplay.net';
 						role="alert"
 					>
 						Your browser didn't open an email app. You can copy your message and send it directly to
-						<a href={`mailto:${supportEmail}`} class="font-semibold underline hover:text-amber-100">{supportEmail}</a>.
+						<a href={mailtoHref('support')} class="font-semibold underline hover:text-amber-100">{supportEmail}</a>.
 					</p>
 				</form>
 			</div>
@@ -142,6 +170,13 @@ const supportEmail = 'support@ultiplay.net';
 	const form = document.getElementById('contact-form') as HTMLFormElement | null;
 	if (form) {
 		const supportEmail = form.dataset.supportEmail ?? '';
+		const topicMap: Record<string, string> = (() => {
+			try {
+				return JSON.parse(form.dataset.topicMap ?? '{}');
+			} catch {
+				return {};
+			}
+		})();
 		const fallback = form.querySelector<HTMLElement>('[data-form-fallback]');
 
 		form.addEventListener('submit', (event) => {
@@ -154,6 +189,7 @@ const supportEmail = 'support@ultiplay.net';
 			const topic = String(data.get('topic') ?? 'General question').trim();
 			const message = String(data.get('message') ?? '').trim();
 
+			const targetEmail = topicMap[topic] ?? supportEmail;
 			const subject = `[Ultiplay] ${topic} — ${name}`;
 			const body = [
 				`From: ${name} <${email}>`,
@@ -165,7 +201,7 @@ const supportEmail = 'support@ultiplay.net';
 				'Sent from the contact form on ultiplay.net',
 			].join('\n');
 
-			const mailtoURL = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+			const mailtoURL = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
 			fallback?.classList.add('hidden');
 
