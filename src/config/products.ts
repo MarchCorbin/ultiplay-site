@@ -1,35 +1,63 @@
-// Lemon Squeezy product links for Ultiplay.
+// Central source of truth for Ultiplay product links and launch state.
 //
-// Both URLs are checkout/share links from the Lemon Squeezy dashboard:
-//   Store > Products > [product] > Share > Copy link
+// Update values here and every CTA, label, and route across the site picks up
+// the change.
+
+// ---------------------------------------------------------------------------
+// Download (free installer, hosted on AWS S3)
+// ---------------------------------------------------------------------------
 //
-// Updating these in one place updates every CTA across the site.
-
-export const LEMONSQUEEZY = {
-	// Free download — user gets the installer via email after a $0 "purchase".
-	freeDownload: 'https://ultiplay.lemonsqueezy.com/checkout/buy/ca436858-e7cb-495d-afca-c8e263add871',
-
-	// Ultiplay Gold — paid one-time purchase.
-	goldPurchase: 'https://ultiplay.lemonsqueezy.com/checkout/buy/12a70ce4-18f5-407e-af71-e28e217dbdad',
+// The site links to `/download` — a same-origin 302 redirect declared in
+// `astro.config.mjs` — which keeps the public URL clean and lets us swap the
+// backing object without touching components.
+//
+// `installerLatest` is the underlying S3 object (Content-Disposition forces a
+// download with a clean `Ultiplay_Setup.exe` filename). `installerVersioned`
+// is a specific build that never changes once published, useful for release
+// notes or "download this exact version" links.
+export const DOWNLOAD = {
+	href: '/download',
+	installerLatest:
+		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_latest.exe',
+	installerVersioned:
+		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.113.exe',
+	currentVersion: '2.0.113',
 } as const;
 
-// Display price (kept here so the value shown on the site, in the app, and in
-// any analytics events stays in sync). If you change the price in Lemon
-// Squeezy, update it here too.
+// ---------------------------------------------------------------------------
+// Stripe (paid Gold upgrade)
+// ---------------------------------------------------------------------------
+//
+// Stripe Payment Link for Ultiplay Gold. Matches GOLD_PURCHASE_URL in the
+// desktop app's licensing.py, so both the website and the in-app "Upgrade"
+// button send users to the same checkout.
+export const STRIPE = {
+	goldPurchase: 'https://buy.stripe.com/eVqaEY6YidQw3XucqBeEo00',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Pricing (display values)
+// ---------------------------------------------------------------------------
+//
+// Keep in sync with the Stripe product price.
 export const PRICING = {
 	goldPrice: '$14.99',
 	goldOriginalPrice: '$39.99',
 } as const;
 
-// Master toggle for the site's launch state.
+// ---------------------------------------------------------------------------
+// Launch state — two independent phases
+// ---------------------------------------------------------------------------
 //
-//   liveLaunch: false  → waitlist mode. Email capture is shown on the homepage
-//                        and every primary CTA routes to "/#notify".
-//   liveLaunch: true   → live mode. Email capture is hidden and primary CTAs
-//                        route to the Lemon Squeezy checkout URLs above.
+//   downloadLive: false  → primary CTAs route to /#notify (waitlist)
+//   downloadLive: true   → primary CTAs route to /download (free installer)
 //
-// Flip this single value once Lemon Squeezy unlocks live mode and the
-// end-to-end purchase loop has been verified.
+//   goldLive: false  → Gold CTAs route to /#notify (waitlist for paid tier)
+//   goldLive: true   → Gold CTAs route to Stripe checkout
+//
+// Flip `downloadLive` first to ship the free app, then flip `goldLive` once the
+// end-to-end Stripe → license email → in-app activation loop is verified.
 export const SITE = {
-	liveLaunch: false,
+	downloadLive: true,
+	goldLive: false,
 } as const;

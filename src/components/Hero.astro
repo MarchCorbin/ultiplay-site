@@ -1,12 +1,12 @@
 ---
-import { LEMONSQUEEZY, SITE } from '../config/products';
+import { DOWNLOAD, SITE } from '../config/products';
 
-const primaryHref = SITE.liveLaunch ? LEMONSQUEEZY.freeDownload : '/#notify';
-const primaryLabel = SITE.liveLaunch ? 'Download Ultiplay Free' : 'Get notified at launch';
-const microline = SITE.liveLaunch
+const primaryHref = SITE.downloadLive ? DOWNLOAD.href : '/#notify';
+const primaryLabel = SITE.downloadLive ? 'Download Ultiplay Free' : 'Get notified at launch';
+const microline = SITE.downloadLive
 	? 'Free · Windows 10 / 11 · 64-bit · No credit card'
 	: 'Launching soon · Windows 10 / 11 · 64-bit';
-const accessBadge = SITE.liveLaunch ? 'Now in early access' : 'Founder’s launch coming soon';
+const accessBadge = SITE.downloadLive ? 'Now in early access' : 'Founder’s launch coming soon';
 ---
 
 <section id="top" class="relative isolate overflow-hidden">
@@ -42,7 +42,7 @@ const accessBadge = SITE.liveLaunch ? 'Now in early access' : 'Founder’s launc
 					href={primaryHref}
 					class="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
 				>
-					{SITE.liveLaunch ? (
+					{SITE.downloadLive ? (
 						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"></path>
 						</svg>

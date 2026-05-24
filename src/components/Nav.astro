@@ -1,8 +1,8 @@
 ---
-import { LEMONSQUEEZY, SITE } from '../config/products';
+import { DOWNLOAD, SITE } from '../config/products';
 
-const ctaHref = SITE.liveLaunch ? LEMONSQUEEZY.freeDownload : '/#notify';
-const ctaLabel = SITE.liveLaunch ? 'Download Free' : 'Get notified';
+const ctaHref = SITE.downloadLive ? DOWNLOAD.href : '/#notify';
+const ctaLabel = SITE.downloadLive ? 'Download Free' : 'Get notified';
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/5 bg-[#070310]/70 backdrop-blur-xl">
