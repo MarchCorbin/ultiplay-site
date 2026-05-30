@@ -26,8 +26,8 @@ export const DOWNLOAD = {
 	installerLatest:
 		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_latest.exe',
 	installerVersioned:
-		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.140.exe',
-	currentVersion: '2.0.140',
+		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.141.exe',
+	currentVersion: '2.0.141',
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ export const DOWNLOAD = {
 // desktop app's licensing.py, so both the website and the in-app "Upgrade"
 // button send users to the same checkout.
 export const STRIPE = {
-	goldPurchase: 'https://buy.stripe.com/eVqaEY6YidQw3XucqBeEo00',
+	goldPurchase: 'https://buy.stripe.com/14A6oIbeycMsdy48aleEo02',
 } as const;
 
 // ---------------------------------------------------------------------------
