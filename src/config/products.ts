@@ -11,17 +11,23 @@
 // `astro.config.mjs` — which keeps the public URL clean and lets us swap the
 // backing object without touching components.
 //
-// `installerLatest` is the underlying S3 object (Content-Disposition forces a
-// download with a clean `Ultiplay_Setup.exe` filename). `installerVersioned`
-// is a specific build that never changes once published, useful for release
-// notes or "download this exact version" links.
+// `installerVersioned` is the PRIMARY download link used by `/download`. Its
+// filename embeds the version (Ultiplay_Setup_<x.y.z>.exe) and changes every
+// release, so browsers/CDNs can never serve a stale cached copy — each visitor
+// always gets the current build. `scripts/sync-version.mjs` rewrites it (and
+// `currentVersion`) from the live S3 `version.json` on every build and right
+// after each desktop release upload.
+//
+// `installerLatest` is the fixed-filename alias (`Ultiplay_Setup_latest.exe`).
+// It's kept only as a stable fallback/reference; it is NOT used for the public
+// download button because the constant filename is cache-stale-prone.
 export const DOWNLOAD = {
 	href: '/download',
 	installerLatest:
 		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_latest.exe',
 	installerVersioned:
-		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.139.exe',
-	currentVersion: '2.0.139',
+		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.140.exe',
+	currentVersion: '2.0.140',
 } as const;
 
 // ---------------------------------------------------------------------------

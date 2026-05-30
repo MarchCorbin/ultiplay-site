@@ -4,11 +4,17 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { DOWNLOAD } from '../config/products';
 
-// The S3 object behind `installerLatest` responds with
-// `Content-Disposition: attachment`, so pointing the browser at it triggers a
-// file download instead of a navigation — the user stays on this page while
-// the installer saves to their Downloads folder.
-const installerUrl = DOWNLOAD.installerLatest;
+// We serve the VERSIONED installer URL (e.g. Ultiplay_Setup_2.0.140.exe), not
+// the fixed `Ultiplay_Setup_latest.exe` alias.  The alias keeps the same
+// filename across releases, so browsers/CDNs can hand a returning visitor a
+// STALE cached copy of an old build (this caused real "old version installed /
+// won't launch" reports).  The versioned URL changes its filename every
+// release, so there is nothing to cache-stale — every visitor always gets the
+// current build.  `scripts/sync-version.mjs` keeps `installerVersioned` in
+// lockstep with the latest S3 release on each site build.  The S3 object still
+// responds with `Content-Disposition: attachment`, so this triggers a download
+// (with the clean versioned filename) rather than a navigation.
+const installerUrl = DOWNLOAD.installerVersioned;
 const installerVersion = DOWNLOAD.currentVersion;
 ---
 
@@ -64,7 +70,7 @@ const installerVersion = DOWNLOAD.currentVersion;
 					Check your browser's download bar — <span class="font-semibold text-white">Ultiplay_Setup.exe</span>
 					{installerVersion && (
 						<>
-							<span class="text-slate-500"> (v{installerVersion})</span>
+							<span class="text-slate-500"> (v<span id="installer-version" data-fallback={installerVersion}>{installerVersion}</span>)</span>
 						</>
 					)} should be saving now. When it finishes, double-click it to install.
 				</p>
@@ -197,5 +203,36 @@ const installerVersion = DOWNLOAD.currentVersion;
 		window.setTimeout(function () {
 			window.location.href = installerUrl;
 		}, 150);
+	})();
+
+	// Live version refresh.
+	//
+	// The static HTML ships with whatever version the Astro build picked
+	// up (via `scripts/sync-version.mjs` → `products.ts`).  Between site
+	// rebuilds, however, we may publish a newer desktop release to S3.
+	// To avoid showing a stale version badge to visitors in that window,
+	// we re-fetch `version.json` on page load and update the badge text
+	// in place.  If the fetch fails (offline, CORS, etc.) the
+	// already-rendered fallback stays put, so this is purely additive.
+	(function refreshInstallerVersion() {
+		var versionUrl =
+			'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/version.json?t=' +
+			Date.now();
+		fetch(versionUrl, { cache: 'no-store' })
+			.then(function (res) {
+				if (!res.ok) throw new Error('HTTP ' + res.status);
+				return res.json();
+			})
+			.then(function (data) {
+				var latest = data && (data.latest_version || data.version);
+				if (!latest || !/^\d+\.\d+\.\d+$/.test(latest)) return;
+				var el = document.getElementById('installer-version');
+				if (el && el.textContent !== latest) {
+					el.textContent = latest;
+				}
+			})
+			.catch(function () {
+				// Silent: the build-time-baked version stays visible.
+			});
 	})();
 </script>
