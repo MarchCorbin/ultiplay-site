@@ -42,6 +42,21 @@ export const STRIPE = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// License API (AWS Lambda Function URL)
+// ---------------------------------------------------------------------------
+//
+// Same backend the desktop app talks to (LICENSE_API_BASE in licensing.py).
+// The post-purchase `/thank-you` page calls
+// `${apiBase}/by-session?session_id=...` to show the buyer their license key
+// on screen the instant the Stripe webhook issues it — so they never depend on
+// an email landing in their inbox. The session_id arrives via Stripe's
+// `{CHECKOUT_SESSION_ID}` redirect template (configured on the Payment Link).
+export const LICENSE = {
+	apiBase:
+		'https://vgycuwyjcdkybaesvjrut65u440vxgim.lambda-url.us-east-1.on.aws/v1/licenses',
+} as const;
+
+// ---------------------------------------------------------------------------
 // Pricing (display values)
 // ---------------------------------------------------------------------------
 //

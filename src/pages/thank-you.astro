@@ -1,0 +1,289 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { LICENSE } from '../config/products';
+
+// Post-purchase landing page.
+//
+// Stripe's Payment Link is configured (Dashboard → After payment →
+// "Don't show confirmation page" → redirect) to send the buyer here with
+// `?session_id={CHECKOUT_SESSION_ID}`. We exchange that Checkout Session ID
+// for the issued license key via the license API's `/by-session` endpoint and
+// show it on screen — so the customer always gets their key, even if the
+// confirmation email lands in spam or is delayed.
+const apiBase = LICENSE.apiBase;
+---
+
+<Layout
+	title="Thank you — your Ultiplay Gold key"
+	description="Thanks for upgrading to Ultiplay Gold. Your license key is ready — copy it and activate Ultiplay on your PC."
+>
+	<Nav />
+
+	<main class="relative mx-auto max-w-3xl px-6 py-24 md:py-32">
+		<div class="absolute inset-x-0 top-1/3 -z-10 h-96 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,_rgba(217,70,239,0.18),_transparent_70%)]"></div>
+
+		<div class="relative overflow-hidden rounded-3xl border border-fuchsia-400/30 bg-gradient-to-br from-fuchsia-500/10 via-purple-500/5 to-cyan-400/10 p-10 text-center backdrop-blur md:p-16">
+			<div class="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+			<div class="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-cyan-400/15 blur-3xl"></div>
+
+			<div class="relative">
+				<div class="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-cyan-400 shadow-[0_0_40px_rgba(217,70,239,0.5)]">
+					<svg class="h-8 w-8 text-slate-950" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M5 13l4 4L19 7" />
+					</svg>
+				</div>
+
+				<p class="mt-8 text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Payment received</p>
+				<h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+					<span class="block">Welcome to</span>
+					<span class="block bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
+						Ultiplay Gold.
+					</span>
+				</h1>
+
+				<!-- STATE: loading (fetching the key) -->
+				<div id="state-loading" class="mt-8">
+					<div class="mx-auto flex max-w-md items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5">
+						<svg class="h-5 w-5 animate-spin text-fuchsia-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+						</svg>
+						<span class="text-sm font-medium text-slate-300">Issuing your license key…</span>
+					</div>
+				</div>
+
+				<!-- STATE: ready (key issued) -->
+				<div id="state-ready" class="mt-8 hidden">
+					<p class="mx-auto max-w-xl text-base text-slate-300">
+						Here's your license key. Copy it now, then activate Ultiplay on your PC.
+					</p>
+
+					<div class="mx-auto mt-6 max-w-xl rounded-2xl border border-amber-300/30 bg-amber-300/[0.06] p-5">
+						<p class="text-xs font-semibold uppercase tracking-widest text-amber-300/80">Your license key</p>
+						<div class="mt-3 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+							<code id="license-key" class="flex-1 select-all break-all rounded-lg border border-white/10 bg-slate-950/60 px-4 py-3 text-center font-mono text-base font-semibold tracking-wide text-amber-200 sm:text-lg"></code>
+							<button
+								id="copy-key"
+								type="button"
+								class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.35)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.55)]"
+							>
+								<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+									<path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+								</svg>
+								<span id="copy-key-label">Copy</span>
+							</button>
+						</div>
+						<p id="email-note" class="mt-4 text-xs text-slate-400"></p>
+					</div>
+
+					<div class="mx-auto mt-8 grid max-w-xl gap-4 text-left sm:grid-cols-3">
+						<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+							<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Step 1</p>
+							<p class="mt-2 text-sm font-semibold text-white">Open Ultiplay</p>
+							<p class="mt-1 text-xs text-slate-400">Launch the app on the PC you want to upgrade.</p>
+						</div>
+						<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+							<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Step 2</p>
+							<p class="mt-2 text-sm font-semibold text-white">Help → Activate Gold</p>
+							<p class="mt-1 text-xs text-slate-400">Open the license dialog from the Help menu.</p>
+						</div>
+						<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+							<p class="text-xs font-semibold uppercase tracking-widest text-fuchsia-300">Step 3</p>
+							<p class="mt-2 text-sm font-semibold text-white">Paste your key</p>
+							<p class="mt-1 text-xs text-slate-400">Paste the key above and click Activate.</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- STATE: error (revoked / refunded) -->
+				<div id="state-error" class="mt-8 hidden">
+					<div class="mx-auto max-w-xl rounded-2xl border border-rose-400/30 bg-rose-400/[0.06] p-6">
+						<p id="error-msg" class="text-sm text-rose-200"></p>
+						<p class="mt-3 text-xs text-slate-400">
+							If this looks wrong, email
+							<a href="mailto:support@ultiplay.net" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.net</a>
+							and we'll sort it out fast.
+						</p>
+					</div>
+				</div>
+
+				<!-- STATE: fallback (no session / timed out) -->
+				<div id="state-fallback" class="mt-8 hidden">
+					<div class="mx-auto max-w-xl rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+						<p class="text-sm text-slate-300">
+							Your purchase went through and your license key is safe. It may take a moment to issue, or this page may have been opened directly.
+						</p>
+						<p class="mt-3 text-sm text-slate-300">
+							We also emailed your key to the address you used at checkout — check your inbox (and spam folder). Still don't see it?
+							Email <a href="mailto:support@ultiplay.net" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.net</a>
+							and we'll resend it right away.
+						</p>
+						<button
+							id="retry-fetch"
+							type="button"
+							class="mt-5 inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
+						>
+							<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M23 4v6h-6M1 20v-6h6"></path>
+								<path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path>
+							</svg>
+							Check again
+						</button>
+					</div>
+				</div>
+
+				<div class="mt-10">
+					<a href="/" class="inline-flex items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white">
+						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+						Back to ultiplay.net
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<p class="mt-10 text-center text-xs text-slate-500">
+			Need help activating? Email
+			<a href="mailto:support@ultiplay.net" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.net</a>
+			— we read every message.
+		</p>
+	</main>
+
+	<Footer />
+</Layout>
+
+<script is:inline define:vars={{ apiBase }}>
+	(function () {
+		var elLoading = document.getElementById('state-loading');
+		var elReady = document.getElementById('state-ready');
+		var elError = document.getElementById('state-error');
+		var elFallback = document.getElementById('state-fallback');
+		var elKey = document.getElementById('license-key');
+		var elEmailNote = document.getElementById('email-note');
+		var elErrorMsg = document.getElementById('error-msg');
+		var elCopy = document.getElementById('copy-key');
+		var elCopyLabel = document.getElementById('copy-key-label');
+		var elRetry = document.getElementById('retry-fetch');
+
+		function show(el) {
+			[elLoading, elReady, elError, elFallback].forEach(function (n) {
+				if (n) n.classList.add('hidden');
+			});
+			if (el) el.classList.remove('hidden');
+		}
+
+		function getSessionId() {
+			try {
+				return new URLSearchParams(window.location.search).get('session_id') || '';
+			} catch (_) {
+				return '';
+			}
+		}
+
+		function maskEmail(email) {
+			if (!email || email.indexOf('@') === -1) return '';
+			var parts = email.split('@');
+			var name = parts[0];
+			var shown = name.length <= 2 ? name.charAt(0) : name.slice(0, 2);
+			return shown + '•••@' + parts[1];
+		}
+
+		function renderReady(data) {
+			elKey.textContent = data.license_key || '';
+			var masked = maskEmail(data.customer_email);
+			elEmailNote.textContent = masked
+				? 'A copy was also emailed to ' + masked + ' (check spam if you don\u2019t see it).'
+				: 'A copy was also emailed to the address you used at checkout (check spam if you don\u2019t see it).';
+			show(elReady);
+		}
+
+		function renderError(msg) {
+			elErrorMsg.textContent = msg || 'There is a problem with this license. Please contact support.';
+			show(elError);
+		}
+
+		// Copy-to-clipboard with graceful fallback.
+		if (elCopy) {
+			elCopy.addEventListener('click', function () {
+				var key = elKey.textContent || '';
+				if (!key) return;
+				var done = function () {
+					elCopyLabel.textContent = 'Copied!';
+					window.setTimeout(function () { elCopyLabel.textContent = 'Copy'; }, 2000);
+				};
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					navigator.clipboard.writeText(key).then(done).catch(function () {
+						legacyCopy(key); done();
+					});
+				} else {
+					legacyCopy(key); done();
+				}
+			});
+		}
+
+		function legacyCopy(text) {
+			try {
+				var ta = document.createElement('textarea');
+				ta.value = text;
+				ta.style.position = 'fixed';
+				ta.style.opacity = '0';
+				document.body.appendChild(ta);
+				ta.select();
+				document.execCommand('copy');
+				document.body.removeChild(ta);
+			} catch (_) {}
+		}
+
+		var sessionId = getSessionId();
+		// Poll the license API: the Stripe webhook that issues the key fires
+		// asynchronously, so the key may not exist for a second or two after
+		// the redirect. ~30s of polling covers normal webhook latency.
+		var MAX_ATTEMPTS = 15;
+		var INTERVAL_MS = 2000;
+
+		function poll(attempt) {
+			if (!sessionId) {
+				show(elFallback);
+				return;
+			}
+			var url = apiBase.replace(/\/$/, '') + '/by-session?session_id=' +
+				encodeURIComponent(sessionId);
+			fetch(url, { cache: 'no-store' })
+				.then(function (res) { return res.json(); })
+				.then(function (data) {
+					if (data && data.ready) {
+						if (data.error) {
+							renderError(data.error);
+						} else {
+							renderReady(data);
+						}
+						return;
+					}
+					// Not ready yet — keep polling until we exhaust attempts.
+					if (attempt < MAX_ATTEMPTS) {
+						window.setTimeout(function () { poll(attempt + 1); }, INTERVAL_MS);
+					} else {
+						show(elFallback);
+					}
+				})
+				.catch(function () {
+					if (attempt < MAX_ATTEMPTS) {
+						window.setTimeout(function () { poll(attempt + 1); }, INTERVAL_MS);
+					} else {
+						show(elFallback);
+					}
+				});
+		}
+
+		if (elRetry) {
+			elRetry.addEventListener('click', function () {
+				show(elLoading);
+				poll(0);
+			});
+		}
+
+		poll(0);
+	})();
+</script>

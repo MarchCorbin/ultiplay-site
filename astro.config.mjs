@@ -23,7 +23,7 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      filter: (page) => !page.includes('/thanks') && !page.includes('/download'),
+      filter: (page) => !page.includes('/thanks') && !page.includes('/thank-you') && !page.includes('/download'),
     }),
   ]
 });
