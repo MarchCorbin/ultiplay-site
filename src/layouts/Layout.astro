@@ -6,6 +6,7 @@ interface Props {
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
+import Analytics from '@vercel/analytics/astro';
 import Attribution from '../components/Attribution.astro';
 
 const {
@@ -55,10 +56,38 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 				set:html={JSON.stringify(jsonLd)}
 			/>
 		)}
+
+		<Analytics />
 	</head>
 	<body class="min-h-screen bg-[#070310] text-slate-100 antialiased selection:bg-fuchsia-500/40 selection:text-white">
 		<slot />
 		<Attribution />
+
+		<script>
+			// Bridge: forward the analytics-agnostic `download` events that
+			// Attribution.astro pushes onto window.dataLayer into Vercel Web
+			// Analytics as a custom event. Keeps Attribution portable while
+			// giving Vercel a per-source install count. (Custom events require
+			// a Vercel Pro/Enterprise plan; page views are tracked on all plans.)
+			import { track } from '@vercel/analytics';
+
+			const w = window as any;
+			w.dataLayer = w.dataLayer || [];
+			const originalPush = w.dataLayer.push.bind(w.dataLayer);
+			w.dataLayer.push = function (entry: any) {
+				try {
+					if (entry && entry.event === 'download') {
+						track('download', {
+							source: entry.utm_source || '(direct)',
+							campaign: entry.utm_campaign || '',
+						});
+					}
+				} catch (_) {
+					/* never let analytics break navigation */
+				}
+				return originalPush(entry);
+			};
+		</script>
 	</body>
 </html>
 

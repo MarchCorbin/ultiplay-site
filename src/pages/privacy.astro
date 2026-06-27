@@ -37,6 +37,11 @@ const subProcessors = [
 		location: 'United States',
 	},
 	{
+		name: 'Vercel Inc.',
+		purpose: 'Website hosting and privacy-friendly, cookieless web analytics (aggregate traffic metrics only)',
+		location: 'United States',
+	},
+	{
 		name: 'Zoho Corporation — Zoho Mail',
 		purpose: 'Support inbox hosting',
 		location: 'United States / India',
@@ -198,6 +203,31 @@ const retentionRows = [
 					device communicates <strong class="text-white">directly</strong> with that service. Those
 					communications are governed by that service's own privacy policy, not ours. Ultiplay does
 					not proxy, log, or intercept that traffic.
+				</p>
+
+				<h3 class="mt-6 text-lg font-semibold text-white">2.5 Website analytics (ultiplay.net only)</h3>
+				<p class="mt-3">
+					On the <strong class="text-white">ultiplay.net</strong> website (not the desktop app) we
+					use <strong class="text-white">Vercel Web Analytics</strong>, a privacy-friendly,
+					<strong class="text-white"> cookieless</strong> analytics service, to understand aggregate
+					traffic — for example, how many people visit a page, which referral source or advertising
+					campaign brought them, and roughly which country they are in. It
+					<strong class="text-white"> does not</strong> set cookies, create a persistent identifier,
+					build a profile of you, or track you across other websites, and we do not receive any data
+					that identifies you individually.
+				</p>
+				<p class="mt-3">
+					To attribute a download or purchase to the advertisement that referred you, our own
+					website code also briefly remembers the campaign parameters (e.g.,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">utm_source</code>,
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">utm_campaign</code>) from the
+					address you arrived on, storing them in your browser's
+					<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">sessionStorage</code> for the
+					duration of your visit (cleared when you close the tab) and, if you proceed to checkout,
+					passing them to Stripe so the sale can be credited to the right campaign. This is
+					first-party and sets no cookie. See our
+					<a href={LEGAL_ROUTES.cookies} class="text-fuchsia-300 underline hover:text-fuchsia-200">Cookie Policy</a>
+					for more.
 				</p>
 			</section>
 

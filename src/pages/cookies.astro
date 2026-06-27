@@ -49,15 +49,30 @@ import { LEGAL_EFFECTIVE_DATE, LEGAL_ROUTES } from '../config/legal';
 						function (e.g., session and security cookies, anti-CSRF tokens, Stripe Checkout
 						session cookies). Cannot be disabled without breaking the site.
 					</li>
+					<li>
+						<strong class="text-white">Functional (no cookies)</strong> — to attribute downloads
+						and purchases to the advertisement or link that referred you, we briefly remember the
+						campaign parameters (e.g.,
+						<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">utm_source</code>) from the
+						web address you arrived on. This is stored only in your browser's
+						<code class="rounded bg-white/10 px-1.5 py-0.5 text-xs">sessionStorage</code>, is
+						cleared when you close the tab, sets no cookie, and is not used to track you across
+						other websites.
+					</li>
 				</ul>
 				<p class="mt-4">
 					Ultiplay does <strong class="text-white">not</strong> use advertising, retargeting, or
-					cross-site behavioural-tracking cookies. We do not currently load third-party analytics
-					(such as Google Analytics) on the website. If we add analytics in the future, this Policy
-					and the
+					cross-site behavioural-tracking cookies. For aggregate website-traffic measurement we use
+					<strong class="text-white">Vercel Web Analytics</strong> — a privacy-friendly,
+					<strong class="text-white"> cookieless</strong> analytics service. It sets no cookies,
+					creates no persistent identifier, does not store data on your device, and does not track
+					you across other websites; it processes only aggregated, non-identifying metrics (such as
+					page views, referrers, and approximate country). Because it stores nothing on your device,
+					it does not require a consent banner. See our
 					<a href={LEGAL_ROUTES.privacy} class="text-fuchsia-300 underline hover:text-fuchsia-200">Privacy Policy</a>
-					will be updated and — where required by law (EEA/UK/Switzerland) — a cookie banner will
-					be presented before any non-essential cookies are set.
+					for details. If we ever add analytics that <em>does</em> set non-essential cookies, this
+					Policy will be updated and — where required by law (EEA/UK/Switzerland) — a cookie banner
+					will be presented first. We continue to honour the Global Privacy Control (GPC) signal.
 				</p>
 			</section>
 

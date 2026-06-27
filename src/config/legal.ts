@@ -15,7 +15,7 @@
 // Replaces the [TBD] placeholder used throughout LEGAL.md. Every published
 // legal page stamps this single value into its "Last updated:" header so the
 // document set stays internally consistent.
-export const LEGAL_EFFECTIVE_DATE = 'May 23, 2026';
+export const LEGAL_EFFECTIVE_DATE = 'June 27, 2026';
 
 // ---------------------------------------------------------------------------
 // Publisher identity
