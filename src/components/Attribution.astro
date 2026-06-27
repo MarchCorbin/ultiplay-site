@@ -1,0 +1,140 @@
+---
+// Cookieless, first-party advertising attribution.
+//
+// This component captures UTM / ad-click parameters from the landing URL and:
+//   1. Stores them for the tab session (sessionStorage — functional, not a
+//      cross-site tracking cookie, cleared when the tab closes).
+//   2. Appends them to any Stripe Checkout link on the page, so paid Gold
+//      conversions are attributed to the correct ad source. Stripe Payment
+//      Links capture UTM parameters natively, and we also pass a compact
+//      `client_reference_id` that surfaces on the payment in the dashboard.
+//   3. Fires an analytics-agnostic `download` event (via window.dataLayer)
+//      whenever a visitor clicks a download link, so whichever analytics tool
+//      we wire in later can count installs by source without further changes.
+//
+// No third-party script, no advertising/tracking cookie, and no cross-site
+// identifier is set here — so this stays within the current Cookie Policy
+// ("strictly necessary / functional only") and needs no consent banner.
+const stripeHost = 'buy.stripe.com';
+---
+
+<script is:inline define:vars={{ stripeHost }}>
+	(function () {
+		var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+		var CLICK_KEYS = ['gclid', 'fbclid', 'msclkid', 'ttclid'];
+		var STORE_KEY = 'ultiplay:attribution';
+
+		function readStore() {
+			try {
+				return JSON.parse(window.sessionStorage.getItem(STORE_KEY) || '{}');
+			} catch (_) {
+				return {};
+			}
+		}
+
+		function writeStore(obj) {
+			try {
+				window.sessionStorage.setItem(STORE_KEY, JSON.stringify(obj));
+			} catch (_) {
+				/* private mode — ignore */
+			}
+		}
+
+		// First-touch wins for the session: the source that first brought the
+		// visitor in gets the credit even if they later navigate around the site.
+		function captureAttribution() {
+			var params = new URLSearchParams(window.location.search);
+			var stored = readStore();
+			var changed = false;
+			var hasFirstTouch = stored.utm_source || stored.gclid || stored.fbclid || stored.msclkid || stored.ttclid;
+
+			if (!hasFirstTouch) {
+				UTM_KEYS.concat(CLICK_KEYS).forEach(function (k) {
+					var v = params.get(k);
+					if (v) {
+						stored[k] = v;
+						changed = true;
+					}
+				});
+			}
+			if (!stored.referrer && document.referrer) {
+				stored.referrer = document.referrer;
+				changed = true;
+			}
+			if (!stored.landing_page) {
+				stored.landing_page = window.location.pathname + window.location.search;
+				changed = true;
+			}
+			if (changed) writeStore(stored);
+			return stored;
+		}
+
+		// Stripe client_reference_id allows [A-Za-z0-9_-], up to 200 chars.
+		function buildClientReferenceId(attr) {
+			var src = attr.utm_source || (attr.gclid ? 'google_ads' : attr.fbclid ? 'meta_ads' : attr.msclkid ? 'bing_ads' : attr.ttclid ? 'tiktok_ads' : '');
+			var cmp = attr.utm_campaign || '';
+			if (!src && !cmp) return '';
+			var raw = ['src', src, 'cmp', cmp].filter(Boolean).join('-');
+			return raw.replace(/[^A-Za-z0-9_-]/g, '_').slice(0, 200);
+		}
+
+		function decorateStripeLinks(attr) {
+			var anchors = document.querySelectorAll('a[href*="' + stripeHost + '"]');
+			if (!anchors.length) return;
+			var ref = buildClientReferenceId(attr);
+			anchors.forEach(function (a) {
+				try {
+					var url = new URL(a.href);
+					UTM_KEYS.forEach(function (k) {
+						if (attr[k] && !url.searchParams.has(k)) url.searchParams.set(k, attr[k]);
+					});
+					if (ref && !url.searchParams.has('client_reference_id')) {
+						url.searchParams.set('client_reference_id', ref);
+					}
+					a.href = url.toString();
+				} catch (_) {
+					/* malformed href — leave untouched */
+				}
+			});
+		}
+
+		// Analytics-agnostic event hook. Pushes to dataLayer so a future GA4 (or
+		// any) tag can consume it; a harmless no-op until one is wired in.
+		window.ultiplayTrack = function (event, props) {
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push(Object.assign({ event: event }, props || {}));
+		};
+
+		function trackDownloadClicks() {
+			document.addEventListener(
+				'click',
+				function (e) {
+					var a = e.target && e.target.closest ? e.target.closest('a') : null;
+					if (!a) return;
+					var href = a.getAttribute('href') || '';
+					var isDownload = href.indexOf('/download') !== -1 || href.indexOf('Ultiplay_Setup') !== -1;
+					if (!isDownload) return;
+					var attr = readStore();
+					window.ultiplayTrack('download', {
+						utm_source: attr.utm_source || '(direct)',
+						utm_medium: attr.utm_medium || '',
+						utm_campaign: attr.utm_campaign || '',
+					});
+				},
+				{ capture: true }
+			);
+		}
+
+		function run() {
+			var attr = captureAttribution();
+			decorateStripeLinks(attr);
+			trackDownloadClicks();
+		}
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', run);
+		} else {
+			run();
+		}
+	})();
+</script>
