@@ -6,13 +6,12 @@ import { LICENSE } from '../config/products';
 
 // Post-purchase landing page.
 //
-// Stripe's Payment Link is configured (Dashboard → After payment →
-// "Don't show confirmation page" → redirect) to send the buyer here with
-// `?session_id={CHECKOUT_SESSION_ID}`. We exchange that Checkout Session ID
-// for the issued license key via the license API's `/by-session` endpoint and
-// show it on screen — so the customer always gets their key, even if the
-// confirmation email lands in spam or is delayed.
-const apiBase = LICENSE.apiBase;
+// Stripe's Payment Link must redirect here with
+// `?session_id={CHECKOUT_SESSION_ID}` (Dashboard → Payment link →
+// After payment → Redirect). We exchange that Checkout Session ID for the
+// issued license key via `/api/license-by-session` and show it on screen.
+const lookupBase = LICENSE.thankYouLookupBase;
+const directApiBase = LICENSE.apiBase;
 ---
 
 <Layout
@@ -113,7 +112,7 @@ const apiBase = LICENSE.apiBase;
 				<!-- STATE: fallback (no session / timed out) -->
 				<div id="state-fallback" class="mt-8 hidden">
 					<div class="mx-auto max-w-xl rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-						<p class="text-sm text-slate-300">
+						<p id="fallback-msg" class="text-sm text-slate-300">
 							Your purchase went through and your license key is safe. It may take a moment to issue, or this page may have been opened directly.
 						</p>
 						<p class="mt-3 text-sm text-slate-300">
@@ -121,6 +120,7 @@ const apiBase = LICENSE.apiBase;
 							Email <a href="mailto:support@ultiplay.net" class="text-fuchsia-300 underline hover:text-fuchsia-200">support@ultiplay.net</a>
 							and we'll resend it right away.
 						</p>
+						<p id="fallback-debug" class="mt-3 hidden text-xs text-slate-500"></p>
 						<button
 							id="retry-fetch"
 							type="button"
@@ -154,12 +154,14 @@ const apiBase = LICENSE.apiBase;
 	<Footer />
 </Layout>
 
-<script is:inline define:vars={{ apiBase }}>
+<script is:inline define:vars={{ lookupBase, directApiBase }}>
 	(function () {
 		var elLoading = document.getElementById('state-loading');
 		var elReady = document.getElementById('state-ready');
 		var elError = document.getElementById('state-error');
 		var elFallback = document.getElementById('state-fallback');
+		var elFallbackMsg = document.getElementById('fallback-msg');
+		var elFallbackDebug = document.getElementById('fallback-debug');
 		var elKey = document.getElementById('license-key');
 		var elEmailNote = document.getElementById('email-note');
 		var elErrorMsg = document.getElementById('error-msg');
@@ -176,7 +178,19 @@ const apiBase = LICENSE.apiBase;
 
 		function getSessionId() {
 			try {
-				return new URLSearchParams(window.location.search).get('session_id') || '';
+				var params = new URLSearchParams(window.location.search);
+				var candidates = [
+					params.get('session_id'),
+					params.get('checkout_session_id'),
+					params.get('stripe_session_id'),
+				];
+				for (var i = 0; i < candidates.length; i++) {
+					var raw = (candidates[i] || '').trim();
+					if (!raw) continue;
+					if (raw.indexOf('{') !== -1) continue; // literal Stripe template not expanded
+					return raw;
+				}
+				return '';
 			} catch (_) {
 				return '';
 			}
@@ -202,6 +216,23 @@ const apiBase = LICENSE.apiBase;
 		function renderError(msg) {
 			elErrorMsg.textContent = msg || 'There is a problem with this license. Please contact support.';
 			show(elError);
+		}
+
+		function renderFallback(reason, debug) {
+			if (elFallbackMsg) {
+				elFallbackMsg.textContent = reason ||
+					'Your purchase went through and your license key is safe.';
+			}
+			if (elFallbackDebug) {
+				if (debug) {
+					elFallbackDebug.textContent = debug;
+					elFallbackDebug.classList.remove('hidden');
+				} else {
+					elFallbackDebug.textContent = '';
+					elFallbackDebug.classList.add('hidden');
+				}
+			}
+			show(elFallback);
 		}
 
 		// Copy-to-clipboard with graceful fallback.
@@ -237,22 +268,52 @@ const apiBase = LICENSE.apiBase;
 		}
 
 		var sessionId = getSessionId();
-		// Poll the license API: the Stripe webhook that issues the key fires
-		// asynchronously, so the key may not exist for a second or two after
-		// the redirect. ~30s of polling covers normal webhook latency.
-		var MAX_ATTEMPTS = 15;
+		var MAX_ATTEMPTS = 30;
 		var INTERVAL_MS = 2000;
+		// Prefer the Lambda URL directly (works today). Use the same-origin
+		// Vercel proxy when deployed; skip it immediately on 404.
+		var lookupBases = [directApiBase, lookupBase].filter(function (b, i, arr) {
+			return b && arr.indexOf(b) === i;
+		});
+		var activeBaseIndex = 0;
+
+		function lookupUrl(base, sid) {
+			var root = (base || '').replace(/\/$/, '');
+			if (root.indexOf('/api/') !== -1 || root.charAt(0) === '/') {
+				return root + '?session_id=' + encodeURIComponent(sid);
+			}
+			return root + '/by-session?session_id=' + encodeURIComponent(sid);
+		}
+
+		function fetchLicense(base, sid) {
+			return fetch(lookupUrl(base, sid), { cache: 'no-store' }).then(function (res) {
+				return res.text().then(function (text) {
+					var data = {};
+					try { data = text ? JSON.parse(text) : {}; } catch (_) {}
+					return { ok: res.ok, status: res.status, data: data };
+				});
+			});
+		}
 
 		function poll(attempt) {
 			if (!sessionId) {
-				show(elFallback);
+				renderFallback(
+					'Your payment went through, but this page is missing the checkout reference Stripe should append to the URL.',
+					'Check your email for the license key, or email support@ultiplay.net and we will resend it.'
+				);
 				return;
 			}
-			var url = apiBase.replace(/\/$/, '') + '/by-session?session_id=' +
-				encodeURIComponent(sessionId);
-			fetch(url, { cache: 'no-store' })
-				.then(function (res) { return res.json(); })
-				.then(function (data) {
+
+			var base = lookupBases[activeBaseIndex] || directApiBase;
+			fetchLicense(base, sessionId)
+				.then(function (result) {
+					if ((result.status === 404 || result.status === 502) &&
+						activeBaseIndex < lookupBases.length - 1) {
+						activeBaseIndex += 1;
+						poll(attempt);
+						return;
+					}
+					var data = result.data;
 					if (data && data.ready) {
 						if (data.error) {
 							renderError(data.error);
@@ -261,24 +322,42 @@ const apiBase = LICENSE.apiBase;
 						}
 						return;
 					}
-					// Not ready yet — keep polling until we exhaust attempts.
+					if (!result.ok && data && data.error && result.status === 400) {
+						renderFallback(
+							'We could not look up your license from this checkout link.',
+							data.error
+						);
+						return;
+					}
 					if (attempt < MAX_ATTEMPTS) {
 						window.setTimeout(function () { poll(attempt + 1); }, INTERVAL_MS);
-					} else {
-						show(elFallback);
+						return;
 					}
+					renderFallback(
+						'Your purchase went through, but your license key is still being issued. This usually resolves within a minute.',
+						'Session: ' + sessionId.slice(0, 20) + '… — click Check again, or use the key from your email.'
+					);
 				})
 				.catch(function () {
+					if (activeBaseIndex < lookupBases.length - 1) {
+						activeBaseIndex += 1;
+						poll(attempt);
+						return;
+					}
 					if (attempt < MAX_ATTEMPTS) {
 						window.setTimeout(function () { poll(attempt + 1); }, INTERVAL_MS);
 					} else {
-						show(elFallback);
+						renderFallback(
+							'Your purchase went through, but we could not reach the license service from your browser.',
+							'Your key was emailed to you at checkout. Click Check again, or email support@ultiplay.net.'
+						);
 					}
 				});
 		}
 
 		if (elRetry) {
 			elRetry.addEventListener('click', function () {
+				activeBaseIndex = 0;
 				show(elLoading);
 				poll(0);
 			});

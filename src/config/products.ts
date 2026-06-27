@@ -54,6 +54,10 @@ export const STRIPE = {
 export const LICENSE = {
 	apiBase:
 		'https://vgycuwyjcdkybaesvjrut65u440vxgim.lambda-url.us-east-1.on.aws/v1/licenses',
+	// Same-origin Vercel serverless proxy (`api/license-by-session.js`).
+	// The thank-you page uses this instead of calling the Lambda URL from
+	// the browser, which avoids cross-origin fetch failures.
+	thankYouLookupBase: '/api/license-by-session',
 } as const;
 
 // ---------------------------------------------------------------------------
