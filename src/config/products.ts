@@ -84,5 +84,5 @@ export const PRICING = {
 // end-to-end Stripe → license email → in-app activation loop is verified.
 export const SITE = {
 	downloadLive: true,
-	goldLive: false,
+	goldLive: true,
 } as const;
