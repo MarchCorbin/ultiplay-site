@@ -20,12 +20,13 @@ const rows = [
 	{ label: 'Mosaic Mode (aspect-aware)', free: true, gold: true },
 	{ label: 'URL & stream playback (YouTube, Twitch, RTSP)', free: true, gold: true },
 	{ label: 'Basic fullscreen', free: true, gold: true },
-	{ label: 'Webcam feeds', free: false, gold: true },
-	{ label: 'Screenshot capture', free: false, gold: true },
+	{ label: 'Webcam feeds', free: true, gold: true },
+	{ label: 'Screen Player — stream any app or window on your PC', free: true, gold: true },
 	{ label: 'DJ Dashboard', free: false, gold: true },
-	{ label: 'Mirror & sync', free: false, gold: true },
+	{ label: 'Mirror & sync (video walls, dual-monitor)', free: false, gold: true },
 	{ label: 'Duplicate playlists', free: false, gold: true },
 	{ label: 'Screen recording', free: false, gold: true },
+	{ label: 'Screenshot capture', free: false, gold: true },
 	{ label: 'Advanced shortcuts & player swapping', free: false, gold: true },
 	{ label: 'Priority support', free: false, gold: true },
 ];
@@ -41,8 +42,9 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 			Start free. Go Gold when you're ready.
 		</h2>
 		<p class="mt-4 text-lg text-slate-300">
-			Free gets you all four layout modes, streaming, and unlimited saved layouts. Go Gold
-			for unlimited players, webcams, the full DJ Dashboard, and the pro toolkit.
+			Free gets you all four layout modes, streaming, unlimited saved layouts, plus webcam
+			and Screen Player sources. Go Gold for unlimited players, the full DJ Dashboard,
+			recording, and the pro toolkit.
 		</p>
 	</div>
 
@@ -54,8 +56,8 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 				<span class="text-slate-400">forever</span>
 			</div>
 			<p class="mt-4 text-slate-400">
-				Up to 3 players with the full layout toolkit, streaming, and unlimited saved
-				layouts. No time limits. No credit card.
+				Up to 3 players with the full layout toolkit, webcam &amp; Screen Player sources,
+				streaming, and unlimited saved layouts. No time limits. No credit card.
 			</p>
 			<ul class="mt-6 space-y-2 text-sm text-slate-300">
 				<li class="flex items-start gap-2">
@@ -65,6 +67,10 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 				<li class="flex items-start gap-2">
 					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
 					All modes: Classic, Grid, SMM, Mosaic
+				</li>
+				<li class="flex items-start gap-2">
+					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+					Webcam &amp; Screen Player sources
 				</li>
 				<li class="flex items-start gap-2">
 					<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
@@ -194,6 +200,34 @@ const Dash = `<span class="inline-block h-0.5 w-4 rounded bg-slate-600"></span>`
 					)}
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<div class="mb-10 rounded-2xl border border-amber-300/25 bg-gradient-to-br from-amber-400/[0.06] to-fuchsia-500/[0.04] p-8 backdrop-blur">
+		<div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+			<div class="max-w-md">
+				<h3 class="text-2xl font-bold tracking-tight text-white">
+					Free still isn't <span class="text-amber-200">"everything."</span>
+				</h3>
+				<p class="mt-3 text-slate-300">
+					We made Free genuinely useful — webcams, the Screen Player, every layout mode,
+					and up to 3 players. But Gold still has real pull beyond player count.
+				</p>
+			</div>
+			<ul class="grid gap-2.5 text-sm text-slate-200 sm:grid-cols-2 md:max-w-md">
+				{[
+					'Mirror & sync (video walls, dual-monitor)',
+					'Duplicate playlists',
+					'Screen recording & screenshot capture',
+					'Advanced shortcuts & player swapping',
+					'Priority support',
+				].map((perk) => (
+					<li class="flex items-start gap-2">
+						<svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+						{perk}
+					</li>
+				))}
+			</ul>
 		</div>
 	</div>
 
