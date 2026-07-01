@@ -6,6 +6,7 @@ import VideoSection from '../components/VideoSection.astro';
 import LayoutModes from '../components/LayoutModes.astro';
 import Features from '../components/Features.astro';
 import Comparison from '../components/Comparison.astro';
+import DownloadCTA from '../components/DownloadCTA.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../config/products';
@@ -59,6 +60,7 @@ const jsonLd = [
 	<LayoutModes />
 	<Features />
 	<Comparison />
+	<DownloadCTA />
 	{!SITE.goldLive && <EmailCapture />}
 	<Footer />
 </Layout>

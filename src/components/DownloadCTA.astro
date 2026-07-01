@@ -1,0 +1,85 @@
+---
+import { DOWNLOAD, SITE } from '../config/products';
+
+const primaryHref = SITE.downloadLive ? DOWNLOAD.href : '/#notify';
+const primaryLabel = SITE.downloadLive ? 'Download Ultiplay Free' : 'Get notified at launch';
+const microline = SITE.downloadLive
+	? 'Free · Windows 10 / 11 · 64-bit · No credit card'
+	: 'Launching soon · Windows 10 / 11 · 64-bit';
+---
+
+<section class="relative mx-auto max-w-6xl px-6 py-20 md:py-24">
+	<div
+		class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-fuchsia-500/10 via-purple-500/5 to-cyan-400/10 backdrop-blur"
+	>
+		<div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+		<div class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-cyan-400/15 blur-3xl"></div>
+
+		<div class="relative grid items-center gap-10 p-10 md:grid-cols-2 md:p-14">
+			<div>
+				<h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Ready to take over every screen?
+				</h2>
+				<p class="mt-4 max-w-lg text-lg text-slate-300">
+					Download Ultiplay free — up to 3 players, all four layout modes, streaming, webcam
+					and Screen Player sources, and unlimited saved layouts.
+					<span class="font-semibold text-white">Free forever, no account.</span>
+				</p>
+
+				<div class="mt-8 flex flex-wrap items-center gap-4">
+					<a
+						href={primaryHref}
+						data-os-cta
+						class="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
+					>
+						{SITE.downloadLive ? (
+							<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+						) : (
+							<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0"/></svg>
+						)}
+						<span data-os-cta-label>{primaryLabel}</span>
+					</a>
+					<a
+						href="/#pricing"
+						class="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
+					>
+						Compare Free &amp; Gold
+					</a>
+				</div>
+
+				<p class="mt-4 text-xs font-medium uppercase tracking-widest text-slate-500" data-os-note>
+					{microline}
+				</p>
+
+				{SITE.downloadLive && (
+					<ul class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400" data-os-hide>
+						{[
+							'Free forever — no account',
+							'Code-signed installer',
+							'No ads, no watermark',
+						].map((item) => (
+							<li class="inline-flex items-center gap-1.5">
+								<svg class="h-3.5 w-3.5 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+								{item}
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
+
+			<div class="relative">
+				<div class="absolute -inset-4 -z-10 rounded-[1.75rem] bg-gradient-to-br from-fuchsia-500/25 to-cyan-400/20 blur-2xl"></div>
+				<div class="relative overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-fuchsia-500/10">
+					<img
+						src="/modes/grid.webp"
+						alt="Ultiplay running four video streams in Grid mode"
+						class="h-auto w-full"
+						width="1024"
+						height="640"
+						loading="lazy"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

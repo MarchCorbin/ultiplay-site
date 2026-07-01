@@ -20,14 +20,14 @@ const accessBadge = SITE.downloadLive ? 'Now in early access' : 'Founder’s lau
 			</span>
 
 			<h1 class="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-				<span class="block text-white">Your Play.</span>
+				<span class="block text-white">Play every video</span>
 				<span class="block bg-gradient-to-r from-fuchsia-400 via-pink-300 to-cyan-300 bg-clip-text text-transparent">
-					Your Way.
+					at once — free.
 				</span>
 			</h1>
 
 			<p class="mt-5 text-base font-medium uppercase tracking-[0.2em] text-slate-400">
-				Watch more · Control everything
+				Your Play · Your Way · Watch more, control everything
 			</p>
 
 			<p class="mt-6 max-w-xl text-lg text-slate-300 sm:text-xl">
@@ -40,6 +40,8 @@ const accessBadge = SITE.downloadLive ? 'Now in early access' : 'Founder’s lau
 			<div class="mt-10 flex flex-wrap items-center gap-4">
 				<a
 					href={primaryHref}
+					id="hero-cta"
+					data-os-cta
 					class="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(217,70,239,0.4)] transition hover:shadow-[0_0_40px_rgba(217,70,239,0.6)]"
 				>
 					{SITE.downloadLive ? (
@@ -51,7 +53,7 @@ const accessBadge = SITE.downloadLive ? 'Now in early access' : 'Founder’s lau
 							<path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0"></path>
 						</svg>
 					)}
-					{primaryLabel}
+					<span data-os-cta-label>{primaryLabel}</span>
 				</a>
 				<a
 					href="#demo"
@@ -64,9 +66,24 @@ const accessBadge = SITE.downloadLive ? 'Now in early access' : 'Founder’s lau
 				</a>
 			</div>
 
-			<p class="mt-4 text-xs font-medium uppercase tracking-widest text-slate-500">
+			<p class="mt-4 text-xs font-medium uppercase tracking-widest text-slate-500" data-os-note>
 				{microline}
 			</p>
+
+			{SITE.downloadLive && (
+				<ul class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400" data-os-hide>
+					{[
+						'Free forever — no account',
+						'Code-signed installer',
+						'No ads, no watermark',
+					].map((item) => (
+						<li class="inline-flex items-center gap-1.5">
+							<svg class="h-3.5 w-3.5 flex-shrink-0 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+							{item}
+						</li>
+					))}
+				</ul>
+			)}
 
 			<dl class="mt-12 grid grid-cols-3 gap-6 border-t border-white/10 pt-8 text-sm">
 				<div>

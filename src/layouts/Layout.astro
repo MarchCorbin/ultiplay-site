@@ -87,6 +87,38 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 				}
 				return originalPush(entry);
 			};
+
+			// Windows-only reality check: Ultiplay ships a Windows .exe, so a
+			// visitor on macOS/Linux/mobile can't install it. Rather than hand
+			// them a dead download button (a silent bounce), swap any marked CTA
+			// to a "notify me" mailto and replace the platform microcopy. Purely
+			// progressive — Windows users see the normal download CTA untouched.
+			try {
+				const uaData = (navigator as any).userAgentData;
+				const isWindows = uaData && uaData.platform
+					? /windows/i.test(uaData.platform)
+					: /Win/i.test(navigator.platform || navigator.userAgent || '');
+				if (!isWindows) {
+					const notifyHref =
+						'mailto:support@ultiplay.net?subject=' +
+						encodeURIComponent('Notify me when Ultiplay supports my platform');
+					document.querySelectorAll('[data-os-cta]').forEach((el) => {
+						const a = el as HTMLAnchorElement;
+						a.setAttribute('href', notifyHref);
+						const label = (a.querySelector('[data-os-cta-label]') as HTMLElement) || a;
+						label.textContent = 'Windows only — email me at launch';
+					});
+					document.querySelectorAll('[data-os-note]').forEach((el) => {
+						(el as HTMLElement).textContent =
+							'Ultiplay is Windows 10 / 11 (64-bit) only right now.';
+					});
+					document.querySelectorAll('[data-os-hide]').forEach((el) => {
+						(el as HTMLElement).style.display = 'none';
+					});
+				}
+			} catch (_) {
+				/* detection best-effort — never block the page */
+			}
 		</script>
 	</body>
 </html>
