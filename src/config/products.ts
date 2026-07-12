@@ -26,8 +26,8 @@ export const DOWNLOAD = {
 	installerLatest:
 		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_latest.exe',
 	installerVersioned:
-		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.188.exe',
-	currentVersion: '2.0.188',
+		'https://ultiplay-updates.s3.us-east-1.amazonaws.com/releases/installer/Ultiplay_Setup_2.0.189.exe',
+	currentVersion: '2.0.189',
 } as const;
 
 // ---------------------------------------------------------------------------
