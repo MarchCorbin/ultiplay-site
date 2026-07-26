@@ -2,7 +2,7 @@
 // Cookieless, first-party advertising attribution.
 //
 // This component captures UTM / ad-click parameters from the landing URL and:
-//   1. Stores them for the tab session (sessionStorage — functional, not a
+//   1. Stores them for the tab session (sessionStorage ï¿½ functional, not a
 //      cross-site tracking cookie, cleared when the tab closes).
 //   2. Appends them to any Stripe Checkout link on the page, so paid Gold
 //      conversions are attributed to the correct ad source. Stripe Payment
@@ -13,7 +13,7 @@
 //      we wire in later can count installs by source without further changes.
 //
 // No third-party script, no advertising/tracking cookie, and no cross-site
-// identifier is set here — so this stays within the current Cookie Policy
+// identifier is set here ï¿½ so this stays within the current Cookie Policy
 // ("strictly necessary / functional only") and needs no consent banner.
 const stripeHost = 'buy.stripe.com';
 ---
@@ -36,7 +36,7 @@ const stripeHost = 'buy.stripe.com';
 			try {
 				window.sessionStorage.setItem(STORE_KEY, JSON.stringify(obj));
 			} catch (_) {
-				/* private mode — ignore */
+				/* private mode ï¿½ ignore */
 			}
 		}
 
@@ -93,7 +93,7 @@ const stripeHost = 'buy.stripe.com';
 					}
 					a.href = url.toString();
 				} catch (_) {
-					/* malformed href — leave untouched */
+					/* malformed href ï¿½ leave untouched */
 				}
 			});
 		}
