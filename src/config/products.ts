@@ -86,3 +86,25 @@ export const SITE = {
 	downloadLive: true,
 	goldLive: true,
 } as const;
+
+// ---------------------------------------------------------------------------
+// Marketing videos (YouTube)
+// ---------------------------------------------------------------------------
+//
+// ``commercial`` is the short spot used front-and-center on the homepage,
+// share links, and press asks. ``techDemo`` is the longer walkthrough kept
+// secondary for people who want the deeper look.
+export const MEDIA = {
+	commercial: {
+		id: 'Q9cBlha1AL0',
+		watchUrl: 'https://www.youtube.com/watch?v=Q9cBlha1AL0',
+		embedUrl: 'https://www.youtube.com/embed/Q9cBlha1AL0?rel=0&modestbranding=1',
+		title: 'Ultiplay commercial',
+	},
+	techDemo: {
+		id: 'mCKQj-VgBi4',
+		watchUrl: 'https://www.youtube.com/watch?v=mCKQj-VgBi4',
+		embedUrl: 'https://www.youtube.com/embed/mCKQj-VgBi4?rel=0&modestbranding=1',
+		title: 'Ultiplay tech demo',
+	},
+} as const;

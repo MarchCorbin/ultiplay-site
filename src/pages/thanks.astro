@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { MEDIA } from '../config/products';
 
 // SETUP: in your Formspree dashboard, set the form's "Thank You / Redirect"
 // to https://YOUR-DOMAIN/thanks so signups land here after submitting.
 
-// Replace the YouTube URL when ready (or remove the share section entirely).
-const commercialUrl = 'https://www.youtube.com/watch?v=mCKQj-VgBi4';
+const commercialUrl = MEDIA.commercial.watchUrl;
 const shareText = encodeURIComponent('Just signed up for early access to Ultiplay — a multi-video player that snaps every player into a cinematic layout with one button. Watch the commercial:');
 const twitterShare = `https://twitter.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(commercialUrl)}`;
 ---
