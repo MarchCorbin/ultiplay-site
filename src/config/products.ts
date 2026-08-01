@@ -96,9 +96,9 @@ export const SITE = {
 // secondary for people who want the deeper look.
 export const MEDIA = {
 	commercial: {
-		id: 'Q9cBlha1AL0',
-		watchUrl: 'https://www.youtube.com/watch?v=Q9cBlha1AL0',
-		embedUrl: 'https://www.youtube.com/embed/Q9cBlha1AL0?rel=0&modestbranding=1',
+		id: 'DIHkoIAjlyg',
+		watchUrl: 'https://www.youtube.com/watch?v=DIHkoIAjlyg',
+		embedUrl: 'https://www.youtube.com/embed/DIHkoIAjlyg?rel=0&modestbranding=1',
 		title: 'Ultiplay commercial',
 	},
 	techDemo: {
