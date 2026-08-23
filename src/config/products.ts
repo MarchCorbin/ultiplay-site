@@ -92,8 +92,8 @@ export const SITE = {
 // ---------------------------------------------------------------------------
 //
 // ``commercial`` is the short spot used front-and-center on the homepage,
-// share links, and press asks. ``techDemo`` is the longer walkthrough kept
-// secondary for people who want the deeper look.
+// share links, and press asks. ``techDemo`` is the longer walkthrough on
+// /tech-demo — kept off the homepage so the commercial stands alone.
 export const MEDIA = {
 	commercial: {
 		id: 'DIHkoIAjlyg',

@@ -31,39 +31,10 @@ import { MEDIA } from '../config/products';
 		</div>
 	</div>
 
-	<div id="tech-demo" class="mt-16 scroll-mt-28 border-t border-white/10 pt-14">
-		<div class="mb-8 text-center">
-			<p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Longer look</p>
-			<h3 class="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-				Tech demo
-			</h3>
-			<p class="mx-auto mt-3 max-w-2xl text-slate-400">
-				Want the deeper walkthrough? This longer tech demo covers layout modes, control, and capture in more detail.
-			</p>
-		</div>
-
-		<div class="relative mx-auto max-w-3xl">
-			<div class="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black shadow-xl shadow-black/40">
-				<iframe
-					class="h-full w-full"
-					src={MEDIA.techDemo.embedUrl}
-					title={MEDIA.techDemo.title}
-					loading="lazy"
-					frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-					allowfullscreen
-				></iframe>
-			</div>
-			<p class="mt-4 text-center text-sm text-slate-500">
-				<a
-					href={MEDIA.techDemo.watchUrl}
-					target="_blank"
-					rel="noopener"
-					class="text-slate-400 underline decoration-white/15 underline-offset-4 transition hover:text-white"
-				>
-					Open the tech demo on YouTube
-				</a>
-			</p>
-		</div>
-	</div>
+	<p class="mt-6 text-center text-sm text-slate-500">
+		Want the longer walkthrough?
+		<a href="/tech-demo" class="text-slate-400 underline decoration-white/15 underline-offset-4 transition hover:text-white">
+			Watch the tech demo
+		</a>
+	</p>
 </section>
