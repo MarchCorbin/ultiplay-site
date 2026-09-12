@@ -113,9 +113,12 @@ const stripeHost = 'buy.stripe.com';
 					if (!a) return;
 					var href = a.getAttribute('href') || '';
 					var isDownload = href.indexOf('/download') !== -1 || href.indexOf('Ultiplay_Setup') !== -1;
-					if (!isDownload) return;
+					var isGoldCheckout = false;
+					try { isGoldCheckout = new URL(a.href).hostname === stripeHost; } catch (_) {}
+					if (!isDownload && !isGoldCheckout) return;
 					var attr = readStore();
-					window.ultiplayTrack('download', {
+					window.ultiplayTrack(isGoldCheckout ? 'gold_checkout_click' : 'download', {
+						placement: a.getAttribute('data-gold-position') || 'other',
 						utm_source: attr.utm_source || '(direct)',
 						utm_medium: attr.utm_medium || '',
 						utm_campaign: attr.utm_campaign || '',

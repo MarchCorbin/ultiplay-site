@@ -1,0 +1,19 @@
+---
+import { PRICING } from '../config/products';
+const questions = [
+  { question: 'What is Ultiplay?', answer: 'Ultiplay is a multi-video media player for Windows 10 and Windows 11 (64-bit). It brings local videos, streams, and cameras together, with Classic, Grid, Screen Maximize, and Mosaic layouts.' },
+  { question: 'Can I play multiple videos at the same time?', answer: 'Yes. Ultiplay Free supports up to 3 simultaneous players. Gold removes the player-count limit. How many videos run smoothly depends on your computer and the resolution and format of your media.' },
+  { question: 'Is Ultiplay free, or is it a trial?', answer: 'The Free edition has no time limit, watermark, or account requirement. It includes up to 3 players, all four layout modes, streaming, webcam and Screen Player sources, and unlimited saved layouts.' },
+  { question: 'What does Ultiplay Gold add?', answer: 'Gold adds unlimited players, the full DJ Dashboard, mirror and sync tools, duplicate playlists, screen recording, screenshots, and advanced controls. It costs ' + PRICING.goldPrice + ' USD plus applicable tax as a one-time purchase, with lifetime updates and no subscription.' },
+  { question: 'Can I use more than one monitor?', answer: 'Yes. Screen Maximize arranges players across your monitors. Grid arranges players evenly, while Mosaic adapts the layout to different video aspect ratios. Gold also includes mirror and sync tools.' },
+  { question: 'Does Ultiplay work on Mac, Linux, or phones?', answer: 'Ultiplay currently supports Windows 10 and Windows 11 (64-bit). There is no native Mac, Linux, Android, or iOS version.' },
+];
+---
+<section id="faq" class="shell section-space" aria-labelledby="faq-heading">
+  <div class="section-top"><div><p class="eyebrow">BEFORE YOU PRESS PLAY</p><h2 id="faq-heading" class="section-heading">A few useful answers.</h2></div><p class="section-copy">The essentials about players, platforms, and the optional Gold upgrade.</p></div>
+  <div class="faq-list">{questions.map(({ question, answer }) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+  <p class="fineprint">Need a closer look? <a class="text-link" href="/tech-demo">Watch the tech demo</a> or <a class="text-link" href="/contact">get in touch</a>.</p>
+</section>
+<style>
+.faq-list{border-top:1px solid var(--line)}.faq-list details{border-bottom:1px solid var(--line)}.faq-list summary{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;font-size:18px;font-weight:600;cursor:pointer;list-style:none}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary span{color:var(--gold);font-size:24px;font-weight:400}.faq-list details[open] summary span{transform:rotate(45deg)}.faq-list details p{max-width:850px;margin:0 0 26px;color:var(--muted);font-size:16px;line-height:1.8}@media(max-width:600px){.faq-list summary{font-size:16px;padding:20px 0}}
+</style>

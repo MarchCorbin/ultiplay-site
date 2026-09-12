@@ -66,7 +66,7 @@ export const LICENSE = {
 //
 // Keep in sync with the Stripe product price.
 export const PRICING = {
-	goldPrice: '$14.99',
+	goldPrice: '$15.00',
 	goldOriginalPrice: '$39.99',
 } as const;
 

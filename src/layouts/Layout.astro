@@ -18,6 +18,7 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImageURL = new URL(ogImage, Astro.site).toString();
+const utilityPage = /^\/(download|thanks|thank-you)\/?$/.test(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -38,7 +39,8 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#0b0514" />
+		<meta name="robots" content={utilityPage ? "noindex, follow" : "index, follow, max-image-preview:large"} />
+		<meta name="theme-color" content="#111212" />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Ultiplay" />
@@ -70,10 +72,10 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 		<Attribution />
 
 		<script>
-			// Bridge: forward the analytics-agnostic `download` events that
+			// Bridge: forward the analytics-agnostic download and Gold checkout-click events that
 			// Attribution.astro pushes onto window.dataLayer into Vercel Web
 			// Analytics as a custom event. Keeps Attribution portable while
-			// giving Vercel a per-source install count. (Custom events require
+			// giving Vercel per-source download and checkout-click counts. (Custom events require
 			// a Vercel Pro/Enterprise plan; page views are tracked on all plans.)
 			import { track } from '@vercel/analytics';
 
@@ -82,10 +84,11 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
 			const originalPush = w.dataLayer.push.bind(w.dataLayer);
 			w.dataLayer.push = function (entry: any) {
 				try {
-					if (entry && entry.event === 'download') {
-						track('download', {
+					if (entry && (entry.event === 'download' || entry.event === 'gold_checkout_click')) {
+						track(entry.event, {
 							source: entry.utm_source || '(direct)',
 							campaign: entry.utm_campaign || '',
+							placement: entry.placement || 'other',
 						});
 					}
 				} catch (_) {

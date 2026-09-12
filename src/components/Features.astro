@@ -1,76 +1,17 @@
 ---
 const features = [
-	{
-		title: 'DJ Dashboard',
-		description:
-			'Flagship control surface with per-player seek bars, volume, and playlist management. Drive an entire video set from one window.',
-		accent: 'from-fuchsia-500 to-pink-500',
-		icon: 'M4 4h4v16H4zM10 9h4v11h-4zM16 6h4v14h-4z',
-	},
-	{
-		title: 'Smart Playlists & Play Next',
-		description:
-			"Queue the next title in one click, reorder on the fly, search within playlists, and auto-advance. Real playlist power whether you're watching one video or nine.",
-		accent: 'from-amber-400 to-fuchsia-500',
-		icon: 'M4 6h11M4 12h11M4 18h7M17 14l4 3-4 3v-6z',
-	},
-	{
-		title: 'Live Streaming',
-		description:
-			'Pull in YouTube, Twitch, RTSP cameras, and any direct stream. Treat the whole internet like a local file.',
-		accent: 'from-pink-500 to-rose-500',
-		icon: 'M5 12a7 7 0 0114 0M8 12a4 4 0 018 0M12 12h.01',
-	},
-	{
-		title: 'Layout Presets',
-		description:
-			'Save unlimited .ultilayout configurations. Load a rig in one click — 4-player grid, VR stream setup, or your custom wall.',
-		accent: 'from-cyan-400 to-fuchsia-500',
-		icon: 'M4 4h16v4H4zM4 10h10v10H4zM16 10h4v4h-4zM16 16h4v4h-4z',
-	},
-	{
-		title: 'Webcam Feeds',
-		description:
-			'Drop in any DirectShow camera as a player — surveillance, reaction cams, multi-angle setups. Mix live feeds with playback freely.',
-		accent: 'from-cyan-400 to-blue-500',
-		icon: 'M3 7h13v10H3zM16 11l5-3v8l-5-3z',
-	},
-	{
-		title: 'Mirror & Sync',
-		description:
-			'Clone any player to any screen with frame-level sync. Perfect for video walls, dual-monitor streaming, and live events.',
-		accent: 'from-purple-500 to-fuchsia-500',
-		icon: 'M12 3v18M3 8l9-5 9 5M3 16l9 5 9-5',
-	},
+  { n: '01', title: 'Build a bigger video wall.', body: 'Open more than three players and keep adding videos as your setup grows. Gold removes the player limit; your hardware sets the practical ceiling.', tag: 'UNLIMITED PLAYERS' },
+  { n: '02', title: 'Run the whole show.', body: 'Manage per-player seek bars, volume, and playlists from the DJ Dashboard. Keep control of the entire set without hopping between windows.', tag: 'DJ DASHBOARD' },
+  { n: '03', title: 'Keep your screens together.', body: 'Mirror a player to another screen, synchronize playback, and duplicate playlists for a repeatable multi-monitor setup.', tag: 'MIRROR + SYNC' },
+  { n: '04', title: 'Capture what’s playing.', body: 'Record your screen and take screenshots with the built-in capture tools. Keep the moments you want to return to.', tag: 'RECORDING + SCREENSHOTS' },
 ];
 ---
-
-<section id="features" class="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-	<div class="mb-16 max-w-2xl">
-		<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Features</p>
-		<h2 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-			Everything you need beyond the modes.
-		</h2>
-		<p class="mt-4 text-lg text-slate-300">
-			Advanced playlist controls for everyday viewers, plus pro-grade tools for streamers, VJs, and
-			video-wall operators when you're ready to scale up.
-		</p>
-	</div>
-
-	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-		{features.map((f) => (
-			<div
-				class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur transition hover:border-white/20 hover:bg-white/[0.06]"
-			>
-				<div class={`mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${f.accent} text-slate-950 shadow-lg`}>
-					<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<path d={f.icon}></path>
-					</svg>
-				</div>
-				<h3 class="text-lg font-semibold text-white">{f.title}</h3>
-				<p class="mt-2 text-sm leading-relaxed text-slate-400">{f.description}</p>
-				<div class="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-fuchsia-500/10 blur-3xl transition group-hover:bg-fuchsia-500/20"></div>
-			</div>
-		))}
-	</div>
+<section id="features" class="features-section">
+  <div class="shell section-space">
+    <div class="sources-row"><p class="eyebrow">BRING IT ALL TOGETHER</p><h2>Local videos. Live streams.<br />Cameras. Even your screen.</h2><p>Mix sources in the same setup. Queue what plays next, control each player, and save your favorite layouts. All included in Free.</p></div>
+    <div class="gold-story"><div class="gold-story-intro"><p class="eyebrow">02 / TAKE CONTROL WITH GOLD</p><h2 class="section-heading">More screens.<br />More control.<br /><span>Your whole setup.</span></h2><p class="section-copy">Already using Ultiplay? Gold opens up the tools for a bigger, more flexible video wall.</p><a href="#pricing" class="text-link">See Free &amp; Gold <span aria-hidden="true">↗</span></a></div><div class="feature-list">{features.map(feature => <article><span class="feature-number">{feature.n}</span><div><p class="feature-tag">GOLD / {feature.tag}</p><h3>{feature.title}</h3><p>{feature.body}</p></div></article>)}</div></div>
+  </div>
 </section>
+<style>
+.features-section{background:#1b1d1c;border-block:1px solid var(--line)}.sources-row{display:grid;grid-template-columns:.7fr 1.2fr 1fr;align-items:start;gap:45px;border-bottom:1px solid #42443f;padding-bottom:65px;margin-bottom:75px}.sources-row h2{font-size:28px;line-height:1.25;letter-spacing:-.8px;margin:0}.sources-row>p:last-child{font-size:14px;line-height:1.8;color:var(--muted);margin:0}.gold-story{display:grid;grid-template-columns:1fr 1.1fr;gap:85px}.gold-story-intro .section-heading{font-size:clamp(36px,4vw,54px)}.gold-story-intro .section-heading span{color:var(--gold)}.gold-story-intro .section-copy{font-size:16px;max-width:350px;margin-bottom:26px}.feature-list article{display:grid;grid-template-columns:28px 1fr;gap:20px;padding:25px 0;border-bottom:1px solid #42443f}.feature-list article:first-child{padding-top:0}.feature-list article:last-child{border:0;padding-bottom:0}.feature-number{font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:3px}.feature-tag{font-family:var(--mono);font-size:9px;letter-spacing:1.2px;color:var(--gold);margin:0 0 10px}.feature-list h3{font-size:24px;font-weight:600;letter-spacing:-.6px;margin:0 0 12px}.feature-list article div>p:last-child{font-size:14px;line-height:1.8;color:var(--muted);margin:0}@media(max-width:900px){.sources-row{grid-template-columns:1fr;gap:20px;padding-bottom:40px;margin-bottom:45px}.gold-story{grid-template-columns:1fr;gap:40px}.gold-story-intro .section-copy{max-width:500px}.feature-list h3{font-size:23px}}
+</style>

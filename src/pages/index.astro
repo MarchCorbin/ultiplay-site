@@ -9,12 +9,14 @@ import Comparison from '../components/Comparison.astro';
 import DownloadCTA from '../components/DownloadCTA.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import Footer from '../components/Footer.astro';
-import { SITE } from '../config/products';
+import FAQ from '../components/FAQ.astro';
+import { SITE, DOWNLOAD, PRICING } from '../config/products';
 
 const jsonLd = [
 	{
 		'@context': 'https://schema.org',
 		'@type': 'SoftwareApplication',
+		'@id': 'https://ultiplay.net/#software',
 		name: 'Ultiplay',
 		applicationCategory: 'MultimediaApplication',
 		applicationSubCategory: 'Video Player',
@@ -22,7 +24,15 @@ const jsonLd = [
 		description:
 			'Ultiplay is a multi-video player for Windows that scales from a single perfectly-controlled player to a full multi-screen video wall — with one-button cinematic layouts including Classic, Grid, Screen Maximize, and Mosaic Mode.',
 		url: 'https://ultiplay.net',
-		image: 'https://ultiplay.net/ultiplay-hero.jpg',
+		image: 'https://ultiplay.net/modes/mosaic.webp',
+		screenshot: 'https://ultiplay.net/modes/mosaic.webp',
+		softwareVersion: DOWNLOAD.currentVersion,
+		downloadUrl: 'https://ultiplay.net/download',
+		publisher: { '@id': 'https://ultiplay.net/#organization' },
+		offers: [
+			{ '@type': 'Offer', name: 'Ultiplay Free — up to 3 players', price: '0', priceCurrency: 'USD', url: 'https://ultiplay.net/#pricing' },
+			{ '@type': 'Offer', name: 'Ultiplay Gold — one-time upgrade', price: PRICING.goldPrice.replace(/[^0-9.]/g, ''), priceCurrency: 'USD', url: 'https://ultiplay.net/#pricing' },
+		],
 		featureList: [
 			'Classic, Grid, Screen Maximize, and Mosaic layout modes',
 			'Smart playlists with play-next queue',
@@ -45,6 +55,9 @@ const jsonLd = [
 	{
 		'@context': 'https://schema.org',
 		'@type': 'Organization',
+		'@id': 'https://ultiplay.net/#organization',
+		legalName: 'Ultiplay LLC',
+		sameAs: ['https://www.youtube.com/@UltiplayTech'],
 		name: 'Ultiplay',
 		url: 'https://ultiplay.net',
 		logo: 'https://ultiplay.net/favicon-512.png',
@@ -53,14 +66,18 @@ const jsonLd = [
 ];
 ---
 
-<Layout jsonLd={jsonLd}>
-	<Nav />
-	<Hero />
-	<VideoSection />
-	<LayoutModes />
-	<Features />
-	<Comparison />
-	<DownloadCTA />
-	{!SITE.goldLive && <EmailCapture />}
-	<Footer />
+<Layout title="Ultiplay Media Player — Play Multiple Videos at Once on Windows" description="Play multiple videos at once on Windows with Ultiplay. Free for 3 players, with grid and mosaic layouts. Upgrade to Gold for unlimited players." ogImage="/modes/mosaic.webp" jsonLd={jsonLd}>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <Nav />
+  <main id="main-content">
+    <Hero />
+    <LayoutModes />
+    <Features />
+    <VideoSection />
+    <Comparison />
+    <FAQ />
+    <DownloadCTA />
+    {(!SITE.goldLive || !SITE.downloadLive) && <EmailCapture />}
+  </main>
+  <Footer />
 </Layout>

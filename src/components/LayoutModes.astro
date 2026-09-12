@@ -1,103 +1,19 @@
 ---
-type Mode = {
-	name: string;
-	shortcut: string;
-	description: string;
-	image: string;
-	video?: string;
-	imageAlt: string;
-};
-
-const modes: Mode[] = [
-	{
-		name: 'Classic',
-		shortcut: 'C',
-		description:
-			'Single-player focus. Full window, no distractions. Perfect for everyday watching with smart playlists and a play-next queue.',
-		image: '/modes/classic.webp',
-		video: '/modes/classic.mp4',
-		imageAlt: 'Ultiplay in Classic Mode — a single video player filling the window',
-	},
-	{
-		name: 'Grid',
-		shortcut: 'G',
-		description:
-			"Auto-arrange every player into an equal grid. 2×2, 3×3, or whatever fits — instantly, with one keystroke.",
-		image: '/modes/grid.webp',
-		imageAlt: 'Ultiplay in Grid Mode — multiple video players arranged in an equal grid',
-	},
-	{
-		name: 'Screen Maximize',
-		shortcut: 'F',
-		description:
-			'Spread players across every monitor with smart per-screen optimization. Built for multi-monitor rigs and video walls.',
-		image: '/modes/smm.webp',
-		video: '/modes/smm.mp4',
-		imageAlt: 'Ultiplay in Screen Maximize Mode — players distributed across multiple monitors',
-	},
-	{
-		name: 'Mosaic',
-		shortcut: 'M',
-		description:
-			"Adapts dynamically to each video's aspect ratio for a perfectly cinematic layout. No black bars. No awkward gaps.",
-		image: '/modes/mosaic.webp',
-		imageAlt: 'Ultiplay in Mosaic Mode — players auto-fitted to varying aspect ratios',
-	},
+const modes = [
+  { id: 'classic', name: 'Classic', key: 'C', title: 'One video. All your attention.', description: 'Focus on a single player, with your playlists and play-next queue close at hand.', image: '/modes/classic.webp', video: '/modes/classic.mp4' },
+  { id: 'grid', name: 'Grid', key: 'G', title: 'Give every video its own space.', description: 'Arrange your players in an even grid. Compare clips or keep several streams in view.', image: '/modes/grid.webp' },
+  { id: 'smm', name: 'Screen Maximize', key: 'F', title: 'Put every monitor to work.', description: 'Spread your players across your screens with a layout optimized for each monitor.', image: '/modes/smm.webp', video: '/modes/smm.mp4' },
+  { id: 'mosaic', name: 'Mosaic', key: 'M', title: 'Different shapes. One great picture.', description: 'Mix portrait and landscape videos in a layout that adapts to their aspect ratios.', image: '/modes/mosaic.webp' },
 ];
 ---
-
-<section id="modes" class="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-	<div class="mb-16 max-w-3xl">
-		<p class="text-sm font-semibold uppercase tracking-widest text-fuchsia-300">Layout modes</p>
-		<h2 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-			Cinematic layouts. <span class="bg-gradient-to-r from-fuchsia-400 to-cyan-300 bg-clip-text text-transparent">One button.</span>
-		</h2>
-		<p class="mt-4 text-lg text-slate-300">
-			Whether you're running one player or nine, Ultiplay snaps everything into the perfect arrangement
-			instantly — automatically optimized for your videos' aspect ratios and your screens.
-		</p>
-	</div>
-
-	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-		{modes.map((mode) => (
-			<div class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur transition hover:border-fuchsia-400/40 hover:bg-white/[0.06]">
-				<div class="relative mb-5 aspect-video overflow-hidden rounded-lg border border-white/10 bg-slate-950">
-					{mode.video ? (
-						<video
-							class="h-full w-full object-cover"
-							src={mode.video}
-							poster={mode.image}
-							autoplay
-							muted
-							loop
-							playsinline
-							preload="metadata"
-							aria-label={mode.imageAlt}
-						></video>
-					) : (
-						<img
-							src={mode.image}
-							alt={mode.imageAlt}
-							class="h-full w-full object-cover"
-							loading="lazy"
-							decoding="async"
-						/>
-					)}
-					<div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
-				</div>
-
-				<div class="flex items-center justify-between">
-					<h3 class="text-lg font-semibold text-white">{mode.name}</h3>
-					<kbd class="rounded border border-white/15 bg-white/5 px-2 py-0.5 font-mono text-xs text-slate-300">
-						{mode.shortcut}
-					</kbd>
-				</div>
-				<p class="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{mode.description}</p>
-			</div>
-		))}
-	</div>
-
-	<p class="mt-10 text-center text-sm text-slate-500">
-		Press a single key. Watch every player snap into place.
-	</p>
+<section id="modes" class="shell section-space">
+  <div class="section-top"><div><p class="eyebrow">01 / ARRANGE YOUR WORLD</p><h2 class="section-heading">A layout for<br />every way you watch.</h2></div><p class="section-copy">Four modes. A single keystroke to switch. Find your arrangement, then save it for next time.</p></div>
+  <fieldset class="mode-showcase"><legend class="sr-only">Choose a layout to preview</legend>
+    <div class="mode-choices">{modes.map(mode => <label class="mode-option"><input type="radio" name="layout-preview" value={mode.id} checked={mode.id === 'mosaic'} /><span>{mode.name}<kbd>{mode.key}</kbd></span></label>)}</div>
+    <div class="mode-stage">{modes.map(mode => <figure class={`mode-panel panel-${mode.id}`}><div class="mode-picture">{mode.video ? <video src={mode.video} poster={mode.image} controls muted playsinline preload="none" aria-label={`Ultiplay ${mode.name} demonstration`} /> : <img src={mode.image} alt={`Ultiplay in ${mode.name} mode`} width="1600" height="900" loading="lazy" />}</div><figcaption><h3>{mode.title}</h3><p>{mode.description}</p></figcaption></figure>)}</div>
+  </fieldset>
+  <p class="fineprint mode-note">Every layout mode is included in Free. Setups with more than 3 players require Gold.</p>
 </section>
+<style>
+.mode-showcase{border:1px solid var(--line);padding:0;margin:0;min-width:0;background:#0b0c0c}.mode-choices{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:var(--panel)}.mode-option{position:relative;cursor:pointer}.mode-option:not(:last-child){border-right:1px solid var(--line)}.mode-option input{position:absolute;opacity:0;width:1px;height:1px}.mode-option>span{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:21px;color:var(--muted);font-size:14px;min-height:65px;border-bottom:2px solid transparent}.mode-option input:checked+span{color:var(--gold);background:#e6bd6809;border-bottom-color:var(--gold)}.mode-option input:focus-visible+span{outline:3px solid var(--gold);outline-offset:-4px}.mode-option kbd{font-family:var(--mono);font-size:11px;padding:3px 6px;border:1px solid var(--line);border-radius:3px}.mode-panel{display:none;margin:0}.mode-showcase:has(input[value=classic]:checked) .panel-classic,.mode-showcase:has(input[value=grid]:checked) .panel-grid,.mode-showcase:has(input[value=smm]:checked) .panel-smm,.mode-showcase:has(input[value=mosaic]:checked) .panel-mosaic{display:block}.mode-picture{padding:26px 26px 0;background:#080909}.mode-picture img,.mode-picture video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain}.mode-panel figcaption{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:28px}.mode-panel h3{font-size:24px;letter-spacing:-.6px;margin:0}.mode-panel p{color:var(--muted);font-size:14px;line-height:1.7;margin:0}.mode-note{text-align:right;margin-top:14px}@supports not selector(:has(*)){.mode-panel{display:block}.mode-choices{display:none}}@media(max-width:680px){.mode-choices{grid-template-columns:1fr 1fr}.mode-option>span{padding:16px 12px;font-size:12px;min-height:55px}.mode-option:nth-child(-n+2){border-bottom:1px solid var(--line)}.mode-picture{padding:10px 10px 0}.mode-panel figcaption{grid-template-columns:1fr;gap:12px;padding:22px}.mode-panel h3{font-size:23px}.mode-note{text-align:left}}
+</style>
